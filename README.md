@@ -25,7 +25,7 @@ Face au stress hydrique, aux coupures d'eau et aux fuites dans les réseaux, Aqu
 - HTML5
 - CSS3
 - JavaScript
-- Bootstrap / Tailwind CSS (selon les templates retenus)
+
 
 ### Backend
 
@@ -55,9 +55,9 @@ Projet académique réalisé à **Esprit School of Engineering – Tunisia**.
 
 Année universitaire : 2026–2027.
 
-Classe : [Votre classe]
+Classe : 2A3
 
-Projet : [Votre désignation PI]
+Projet : Esprit-PIDEV-2A3-2026-AquaFlow
 
 ## Getting Started
 
