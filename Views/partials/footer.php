@@ -1,0 +1,1 @@
+<footer class="footer-note">AquaFlow · Une ville attentive à chaque goutte d'eau</footer>
