@@ -1,21 +1,3 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AquaFlow</title>
-    <link rel="stylesheet" href="assets/style.css">
-</head>
-<body>
-<header class="topbar">
-    <div class="brand"><span class="drop">◆</span> AquaFlow</div>
-    <nav>
-        <a href="index.php?page=profile">Mon profil</a>
-        <a href="index.php?page=edit">Modifier</a>
-        <a href="index.php?page=deactivate">Désactiver</a>
-        <a href="index.php?page=citizens">Citoyens</a>
-        <a href="index.php?page=plumbers">Plombiers</a>
-        <a href="index.php?page=stats">Statistiques</a>
-    </nav>
-</header>
-<main class="container">
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>AquaFlow</title><link rel="stylesheet" href="assets/style.css"></head><body>
+<header class="topbar"><a class="brand" href="index.php"><span class="brand-mark">≈</span> AquaFlow</a><span class="topbar-caption"><?php echo ($_SESSION['demo_role']=='admin') ? 'Console administration' : 'Mon espace'; ?></span><nav>
+<?php if($_SESSION['demo_role']=='admin'){ ?><a href="index.php?page=stats">Vue d’ensemble</a><a href="index.php?page=citizens">Citoyens</a><a href="index.php?page=plumbers">Plombiers</a><?php } else { ?><a href="index.php?page=profile">Mon profil</a><a href="index.php?page=edit">Modifier mes infos</a><a href="index.php?page=deactivate">Désactiver</a><?php } ?><a class="nav-logout" href="index.php?page=logout">Quitter</a></nav></header><main class="container">
