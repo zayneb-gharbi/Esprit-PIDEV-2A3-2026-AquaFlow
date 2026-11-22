@@ -200,12 +200,12 @@ loginForm.addEventListener("submit", function (event) {
     }
 
 
-    // DEMO ONLY - NO DATABASE CONNECTION
+    // clean spaces/dashes (phones are saved without them), then send to PHP
 
-    showMessage(
-        "Login form validated. Database authentication is not connected yet.",
-        "success"
-    );
+    document.getElementById("loginIdentifier").value =
+        identifier.replace(/[\s-]/g, "");
+
+    loginForm.submit();
 
 });
 

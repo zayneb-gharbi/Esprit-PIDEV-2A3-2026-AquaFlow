@@ -24,7 +24,7 @@ if (isset($_POST['role'])) {
         $_POST['first_name'],    // prenom
         $_POST['email'],
         $_POST['phone'],
-        $_POST['password'],      // mot_de_passe
+        password_hash($_POST['password'], PASSWORD_DEFAULT),   // mot_de_passe
         $role,
         $zone,
         $exp,

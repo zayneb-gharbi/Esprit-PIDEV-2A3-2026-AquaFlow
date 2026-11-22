@@ -62,16 +62,17 @@
                         <p>Enter your credentials to continue.</p>
                     </div>
 
-                    <form id="loginForm" novalidate>
+                    <form id="loginForm" action="login.php" method="POST" novalidate>
 
                         <div class="form-group">
                             <label for="loginIdentifier">
-                                Email, phone or username
+                                Email or phone
                             </label>
 
                             <input
                                 type="text"
                                 id="loginIdentifier"
+                                name="identifiant"
                                 placeholder="Enter your email or phone"
                             >
                         </div>
@@ -86,6 +87,7 @@
                                 <input
                                     type="password"
                                     id="loginPassword"
+                                    name="password"
                                     placeholder="Enter your password"
                                 >
 
@@ -135,7 +137,6 @@
                         <p>Start making a difference, one drop at a time.</p>
                     </div>
 
-                    <!-- NEW: action + method -->
                     <form id="registerForm" action="register.php" method="POST" novalidate>
 
                         <!-- ROLE SELECTION -->
@@ -343,7 +344,7 @@
                         </div>
 
 
-                        <!-- CONFIRM PASSWORD (no name: not sent to PHP) -->
+                        <!-- CONFIRM PASSWORD -->
                         <div class="form-group">
 
                             <label for="confirmPassword">

@@ -15,7 +15,7 @@ class config
                 self::$pdo = new PDO(
                 'oci:dbname=//localhost:1521/XE',   // XE = your Oracle service name
                 'AQUAFLOW',
-                'password',
+                'aquaflow69@',
                 [
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -158,6 +158,20 @@ function deleteUtilisateur($id)
         $query->execute(['id' => $id]);
         echo $query->rowCount() . " record(s) DELETED";
     } catch (PDOException $e) {
+        echo 'Error: ' . $e->getMessage();
+    }
+}
+
+// ---------- Read : un utilisateur par email OU telephone (pour le login) ----------
+function getUtilisateurByIdentifiant($identifiant)
+{
+    $sql = "SELECT * FROM utilisateur WHERE email = :email OR telephone = :telephone";
+    $db = config::getConnexion();
+    try {
+        $query = $db->prepare($sql);
+        $query->execute(['email' => $identifiant, 'telephone' => $identifiant]);
+        return $query->fetch();
+    } catch (Exception $e) {
         echo 'Error: ' . $e->getMessage();
     }
 }
