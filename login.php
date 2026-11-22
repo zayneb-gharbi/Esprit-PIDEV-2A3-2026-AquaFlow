@@ -29,9 +29,11 @@ if (isset($_POST['identifiant']) && isset($_POST['password'])) {
             $_SESSION['prenom']  = $user['prenom'];
             $_SESSION['role']    = $user['role'];
 
-            // pour l'instant tout le monde va sur profile.php
-            // (plus tard : si role == 'A' -> admin.php)
-            header('Location: profile.php');
+            if ($user['role'] == 'A') {
+                header('Location: admin.php');
+            } else {
+                header('Location: profile.php');
+            }
             exit;
         }
     }

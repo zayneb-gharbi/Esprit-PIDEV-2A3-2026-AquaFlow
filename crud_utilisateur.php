@@ -175,3 +175,49 @@ function getUtilisateurByIdentifiant($identifiant)
         echo 'Error: ' . $e->getMessage();
     }
 }
+
+
+// ---------- Read : les comptes en attente d'approbation ----------
+function getUtilisateursEnAttente()
+{
+    $sql = "SELECT * FROM utilisateur WHERE statut = 'en_attente' ORDER BY id_user";
+    $db = config::getConnexion();
+    try {
+        $query = $db->prepare($sql);
+        $query->execute();
+        return $query->fetchAll();
+    } catch (Exception $e) {
+        echo 'Error: ' . $e->getMessage();
+        return [];
+    }
+}
+
+// ---------- Update : approuver un compte (en_attente -> actif) ----------
+function approuverUtilisateur($id)
+{
+    $sql = "UPDATE utilisateur SET statut = 'actif' WHERE id_user = :id AND statut = 'en_attente'";
+    $db = config::getConnexion();
+    try {
+        $query = $db->prepare($sql);
+        $query->execute(['id' => $id]);
+        return $query->rowCount();
+    } catch (Exception $e) {
+        echo 'Error: ' . $e->getMessage();
+        return 0;
+    }
+}
+
+// ---------- Delete : refuser un compte (supprime la demande) ----------
+function refuserUtilisateur($id)
+{
+    $sql = "DELETE FROM utilisateur WHERE id_user = :id AND statut = 'en_attente'";
+    $db = config::getConnexion();
+    try {
+        $query = $db->prepare($sql);
+        $query->execute(['id' => $id]);
+        return $query->rowCount();
+    } catch (Exception $e) {
+        echo 'Error: ' . $e->getMessage();
+        return 0;
+    }
+}
