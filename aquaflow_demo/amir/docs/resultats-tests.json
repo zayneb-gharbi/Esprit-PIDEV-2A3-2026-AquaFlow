@@ -1,0 +1,295 @@
+{
+  "runtime": "PHP 8.4.27 WebAssembly et SQLite temporaire",
+  "externalServices": "Simulés ; aucun compte Google/Facebook réel utilisé",
+  "tests": 118,
+  "unit": [
+    "Mots de passe hachés",
+    "Citoyen interdit sur les détails",
+    "Plombier interdit sur les détails",
+    "Anonyme interdit sur les détails",
+    "Fiche admin sans secrets",
+    "Identifiant injecté refusé",
+    "Identifiant absent refusé",
+    "Identifiant tableau refusé",
+    "Vecteur RFC 6238 : 59",
+    "Vecteur RFC 6238 : 1111111109",
+    "Vecteur RFC 6238 : 1111111111",
+    "Vecteur RFC 6238 : 1234567890",
+    "Vecteur RFC 6238 : 2000000000",
+    "Vecteur RFC 6238 : 20000000000",
+    "Secret 2FA chiffré et déchiffré",
+    "Premier facteur sans TOTP",
+    "Activation refusée sans code valide",
+    "Activation et huit codes de secours",
+    "Secours hachés en base",
+    "Pas de session utilisateur avant le deuxième facteur",
+    "Code de préparation non rejouable",
+    "Connexion avec un code de secours",
+    "Code de secours à usage unique",
+    "Tolérance de trente secondes",
+    "Code TOTP à usage unique",
+    "Essai invalide 0",
+    "Essai invalide 1",
+    "Essai invalide 2",
+    "Essai invalide 3",
+    "Essai invalide 4",
+    "Limitation des essais même avec un code valide",
+    "Désactivation et suppression des secours",
+    "Nouvelle vérification nécessaire pour configurer la 2FA",
+    "Compte désactivé invalide la session",
+    "Google : PKCE, nonce et state",
+    "State falsifié refusé",
+    "Aucun échange réseau pour un mauvais state",
+    "State expiré refusé",
+    "Google : échange signé et création du compte",
+    "Un nouveau compte social est toujours citoyen",
+    "Google : même sujet retrouve le même compte",
+    "JWT refusé : aud",
+    "JWT refusé : iss",
+    "JWT refusé : nonce",
+    "JWT refusé : exp",
+    "JWT refusé : email_verified",
+    "JWT refusé : iat",
+    "JWT refusé : azp",
+    "Signature Google falsifiée refusée",
+    "Aucune association automatique par email admin",
+    "Association explicite au compte connecté",
+    "Compte admin associé conserve son rôle",
+    "Facebook : vérification du jeton et du profil",
+    "Facebook refusé : is_valid",
+    "Facebook refusé : app_id",
+    "Facebook refusé : expires_at",
+    "Facebook refusé : type",
+    "Facebook refusé : data_access_expires_at",
+    "Facebook refusé : user_id",
+    "Facebook sans email reste utilisable",
+    "Facebook ne contourne pas le deuxième facteur",
+    "State consommé une seule fois"
+  ],
+  "http": [
+    {
+      "test": "Anonyme redirigé avant la fiche",
+      "status": "OK"
+    },
+    {
+      "test": "CSRF obligatoire pour se connecter",
+      "status": "OK"
+    },
+    {
+      "test": "Boutons Google et Facebook présents",
+      "status": "OK"
+    },
+    {
+      "test": "Réponses sensibles non mises en cache",
+      "status": "OK"
+    },
+    {
+      "test": "Aucun lien OAuth transmis par Referer",
+      "status": "OK"
+    },
+    {
+      "test": "Cookie HttpOnly et SameSite",
+      "status": "OK"
+    },
+    {
+      "test": "Redirection OAuth Google",
+      "status": "OK"
+    },
+    {
+      "test": "Callback OAuth forgé refusé",
+      "status": "OK"
+    },
+    {
+      "test": "OAuth ne démarre pas sans formulaire",
+      "status": "OK"
+    },
+    {
+      "test": "Connexion admin",
+      "status": "OK"
+    },
+    {
+      "test": "Renouvellement de session admin",
+      "status": "OK"
+    },
+    {
+      "test": "Connexion citizen",
+      "status": "OK"
+    },
+    {
+      "test": "Renouvellement de session citizen",
+      "status": "OK"
+    },
+    {
+      "test": "Connexion plumber",
+      "status": "OK"
+    },
+    {
+      "test": "Renouvellement de session plumber",
+      "status": "OK"
+    },
+    {
+      "test": "citizen interdit : details&id=1",
+      "status": "OK"
+    },
+    {
+      "test": "citizen interdit : citizens",
+      "status": "OK"
+    },
+    {
+      "test": "citizen interdit : plumbers",
+      "status": "OK"
+    },
+    {
+      "test": "citizen interdit : stats",
+      "status": "OK"
+    },
+    {
+      "test": "plumber interdit : details&id=1",
+      "status": "OK"
+    },
+    {
+      "test": "plumber interdit : citizens",
+      "status": "OK"
+    },
+    {
+      "test": "plumber interdit : plumbers",
+      "status": "OK"
+    },
+    {
+      "test": "plumber interdit : stats",
+      "status": "OK"
+    },
+    {
+      "test": "Admin ouvre citizens",
+      "status": "OK"
+    },
+    {
+      "test": "Admin ouvre plumbers",
+      "status": "OK"
+    },
+    {
+      "test": "Admin ouvre stats",
+      "status": "OK"
+    },
+    {
+      "test": "Admin ouvre details&id=2",
+      "status": "OK"
+    },
+    {
+      "test": "Admin ouvre details&id=3",
+      "status": "OK"
+    },
+    {
+      "test": "Admin ouvre profile",
+      "status": "OK"
+    },
+    {
+      "test": "Admin ouvre security",
+      "status": "OK"
+    },
+    {
+      "test": "Fiche sans mot de passe ni secret 2FA",
+      "status": "OK"
+    },
+    {
+      "test": "Liste et fiche reliées",
+      "status": "OK"
+    },
+    {
+      "test": "Injection dans ID refusée",
+      "status": "OK"
+    },
+    {
+      "test": "Fiche absente : 404",
+      "status": "OK"
+    },
+    {
+      "test": "ID tableau refusé",
+      "status": "OK"
+    },
+    {
+      "test": "Vue profil de Mariem réutilisée",
+      "status": "OK"
+    },
+    {
+      "test": "Modification via le contrôleur de Mariem",
+      "status": "OK"
+    },
+    {
+      "test": "Profil persistant et XSS échappée",
+      "status": "OK"
+    },
+    {
+      "test": "Préparation 2FA",
+      "status": "OK"
+    },
+    {
+      "test": "Clé Google Authenticator de vingt octets",
+      "status": "OK"
+    },
+    {
+      "test": "Activation sans bon code refusée",
+      "status": "OK"
+    },
+    {
+      "test": "Activation 2FA",
+      "status": "OK"
+    },
+    {
+      "test": "Huit codes de secours affichés",
+      "status": "OK"
+    },
+    {
+      "test": "Codes de secours visibles une seule fois",
+      "status": "OK"
+    },
+    {
+      "test": "Déconnexion",
+      "status": "OK"
+    },
+    {
+      "test": "Mot de passe mène au deuxième facteur",
+      "status": "OK"
+    },
+    {
+      "test": "Profil interdit pendant le deuxième facteur",
+      "status": "OK"
+    },
+    {
+      "test": "Faux code de secours refusé",
+      "status": "OK"
+    },
+    {
+      "test": "Connexion terminée avec secours",
+      "status": "OK"
+    },
+    {
+      "test": "Désactivation contrôlée de la 2FA",
+      "status": "OK"
+    },
+    {
+      "test": "2FA désactivée",
+      "status": "OK"
+    },
+    {
+      "test": "Désactivation via le contrôleur de Mariem",
+      "status": "OK"
+    },
+    {
+      "test": "Compte désactivé déconnecté",
+      "status": "OK"
+    },
+    {
+      "test": "Compte inactif ne se reconnecte pas",
+      "status": "OK"
+    },
+    {
+      "test": "Déconnexion en GET interdite",
+      "status": "OK"
+    },
+    {
+      "test": "Route inconnue : 404",
+      "status": "OK"
+    }
+  ]
+}
