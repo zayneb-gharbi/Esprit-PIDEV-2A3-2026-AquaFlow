@@ -2,18 +2,28 @@
 class AmirAuth
 {
     private $model;
-    public function __construct($model) { $this->model = $model; }
+
+    public function __construct($model) {
+        $this->model = $model;
+    }
+
     public static function demarrer()
     {
         ini_set('session.use_strict_mode', '1');
         ini_set('session.use_only_cookies', '1');
         session_name('AQUAFLOW_AMIR');
-        session_set_cookie_params(['httponly' => true, 'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off', 'samesite' => 'Lax', 'path' => '/']);
+        session_set_cookie_params(['httponly' => true, 'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+                'samesite' => 'Lax', 'path' => '/']);
         session_start();
-        if (isset($_SESSION['last_seen']) && time() - $_SESSION['last_seen'] > 1800) { self::effacer(); }
+        if (isset($_SESSION['last_seen']) && time() - $_SESSION['last_seen'] > 1800) {
+            self::effacer();
+        }
         $_SESSION['last_seen'] = time();
-        if (empty($_SESSION['csrf'])) { $_SESSION['csrf'] = bin2hex(random_bytes(32)); }
+        if (empty($_SESSION['csrf'])) {
+            $_SESSION['csrf'] = bin2hex(random_bytes(32));
+        }
     }
+
     public static function csrf()
     {
         $token = $_POST['csrf'] ?? '';
@@ -22,19 +32,25 @@ class AmirAuth
             throw new DomainException('Formulaire expiré. Recharge la page.');
         }
     }
+
     public static function limiter($cle, $maximum = 5)
     {
         $db = AmirDatabase::connexion();
         $cle = hash('sha256', $cle);
         $db->prepare('DELETE FROM amir_tentatives WHERE instant<?')->execute([time() - 900]);
-        $q = $db->prepare('SELECT COUNT(*) FROM amir_tentatives WHERE cle=?');
-        $q->execute([$cle]);
-        if ((int) $q->fetchColumn() >= $maximum) { throw new DomainException('Trop de tentatives. Réessaie dans 15 minutes.'); }
+        $requete = $db->prepare('SELECT COUNT(*) FROM amir_tentatives WHERE cle=?');
+        $requete->execute([$cle]);
+        if ((int) $requete->fetchColumn() >= $maximum) {
+            throw new DomainException('Trop de tentatives. Réessaie dans 15 minutes.');
+        }
         $db->prepare('INSERT INTO amir_tentatives(cle,instant) VALUES (?,?)')->execute([$cle, time()]);
     }
+
     public function utilisateur()
     {
-        if (!isset($_SESSION['auth'])) { return null; }
+        if (!isset($_SESSION['auth'])) {
+            return null;
+        }
         $session = $_SESSION['auth'];
         $user = $this->model->getById($session['id']);
         if (!$user || $user['statut'] !== 'Actif' || (int) $user['version'] !== $session['version']) {
@@ -43,12 +59,14 @@ class AmirAuth
         }
         return $user;
     }
+
     public static function effacer()
     {
         $_SESSION = [];
         session_regenerate_id(true);
         $_SESSION['csrf'] = bin2hex(random_bytes(32));
     }
+
     public function connecter($post)
     {
         $email = strtolower(champ($post, 'email', 190));
@@ -62,9 +80,12 @@ class AmirAuth
         }
         return $this->premierFacteur($user);
     }
+
     public function premierFacteur($user)
     {
-        if (!$user || $user['statut'] !== 'Actif') { throw new DomainException('Ce compte est indisponible.'); }
+        if (!$user || $user['statut'] !== 'Actif') {
+            throw new DomainException('Ce compte est indisponible.');
+        }
         self::effacer();
         if ($user['totp_secret']) {
             $_SESSION['pending'] = ['id' => (int) $user['id'], 'version' => (int) $user['version'], 'expires' => time() + 300];
@@ -73,6 +94,7 @@ class AmirAuth
         $this->terminer($user);
         return 'profile';
     }
+
     public function terminer($user)
     {
         session_regenerate_id(true);
@@ -81,6 +103,7 @@ class AmirAuth
         $_SESSION['user_id'] = (int) $user['id'];
         $_SESSION['csrf'] = bin2hex(random_bytes(32));
     }
+
     public function terminer2fa($code)
     {
         $pending = $_SESSION['pending'] ?? [];
@@ -92,12 +115,14 @@ class AmirAuth
         AmirTotp::verifier($user, $code);
         $this->terminer($user);
     }
+
     public static function recente()
     {
         if (time() - ($_SESSION['auth']['verified_at'] ?? 0) > 300) {
             throw new DomainException('Pour cette action, déconnecte-toi puis reconnecte-toi afin de confirmer ton identité.');
         }
     }
+
     public static function administrateur($user)
     {
         if (!$user || (int) $user['id_role'] !== 3) {

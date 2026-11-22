@@ -2,7 +2,11 @@
 class AmirDetails
 {
     private $model;
-    public function __construct($model) { $this->model = $model; }
+
+    public function __construct($model) {
+        $this->model = $model;
+    }
+
     public function consulter($admin, $id)
     {
         AmirAuth::administrateur($admin);
@@ -11,8 +15,12 @@ class AmirDetails
             throw new DomainException('Identifiant utilisateur invalide.');
         }
         $user = $this->model->getById((int) $id);
-        if (!$user) { http_response_code(404); throw new DomainException('Utilisateur introuvable.'); }
-        $details = array_intersect_key($user, array_flip(['id','nom','email','telephone','adresse','nom_role','statut','created_at']));
+        if (!$user) {
+            http_response_code(404);
+            throw new DomainException('Utilisateur introuvable.');
+        }
+        $details = array_intersect_key($user, array_flip(['id','nom','email','telephone','adresse','nom_role','statut',
+                'created_at']));
         $details['double_auth'] = $user['totp_secret'] ? 'Activée' : 'Désactivée';
         $details['services'] = $this->model->identites($user['id']);
         return $details;
