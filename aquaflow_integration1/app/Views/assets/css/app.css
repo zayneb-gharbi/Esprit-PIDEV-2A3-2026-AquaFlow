@@ -194,3 +194,34 @@ table.list th {
 .pagination { display:flex; gap:7px; margin-top:20px; flex-wrap:wrap; }
 .pagination a { padding:7px 11px; border:1px solid var(--border); border-radius:7px; color:var(--navy); text-decoration:none; font-size:12px; }
 .pagination a.active { background:var(--navy); color:#fff; }
+
+/* ---------- Actions Bloquer / Debloquer + modale (PR 3) ---------- */
+.btn-outline-danger, .btn-outline-teal {
+    border-radius:8px; padding:7px 12px; font-weight:700; font-size:12px;
+    background:#fff; cursor:pointer;
+}
+.btn-outline-danger { border:1px solid rgba(214,69,69,.45); color:#B43232; }
+.btn-outline-danger:hover { background:#FDECEC; }
+.btn-outline-teal { border:1px solid rgba(20,184,166,.45); color:#0B8579; }
+.btn-outline-teal:hover { background:#EEFAF8; }
+.btn-danger { background:#D64545; }
+.btn-danger:hover { background:#A93232; }
+
+.modal { display:none; position:fixed; inset:0; z-index:1000; align-items:center; justify-content:center; padding:18px; }
+.modal.open { display:flex; }
+.modal-backdrop { position:absolute; inset:0; background:rgba(7,59,92,.45); }
+.modal-dialog {
+    position:relative; background:#fff; border:1px solid var(--border);
+    border-radius:14px; padding:26px; width:100%; max-width:440px;
+    box-shadow:0 18px 50px rgba(7,59,92,.22);
+}
+.modal-dialog h2 { margin:0 0 8px; font-size:18px; color:var(--navy); }
+.modal-text { margin:0 0 18px; font-size:13px; color:var(--muted); }
+.modal-field label { display:block; font-size:12.5px; font-weight:700; color:var(--navy); margin-bottom:6px; }
+.modal-field textarea {
+    width:100%; border:1px solid var(--border); border-radius:8px;
+    padding:10px 12px; font-size:13px; resize:vertical; font-family:inherit;
+}
+.modal-field textarea:focus { outline:none; border-color:var(--turquoise); box-shadow:0 0 0 3px rgba(57,198,200,.18); }
+.field-error { min-height:16px; margin:4px 0 0; color:#D64545; font-size:12px; }
+.modal-actions { display:flex; justify-content:flex-end; gap:10px; margin-top:18px; }

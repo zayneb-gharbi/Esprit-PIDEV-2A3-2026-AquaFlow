@@ -15,7 +15,7 @@ abstract class UsersListController extends AdminBaseController
         $this->requireAdmin($uc);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->handleDeactivation($uc, $this->page);   // message flash puis redirection
+            $this->handleBlockToggle($uc, $this->page);   // message flash puis redirection
         }
 
         $this->render('users_list', [
