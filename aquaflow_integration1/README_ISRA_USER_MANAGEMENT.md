@@ -3,24 +3,69 @@
 Ce document décrit les fonctionnalités ajoutées par Isra Benhassouna sur la base d'`origin/zayneb`
 (branche `isra/status-model` → `isra/block-unblock-backend` → `isra/block-unblock-ui` → `isra/edit-profile`).
 
-> **Branche `isra/mysql-xampp`** : port local de la base Oracle vers MySQL/MariaDB pour XAMPP.
-> Les branches `isra/*` précédentes restent sur Oracle ; ce port n'est qu'une branche de travail locale.
+> **Branche `event/user`** : intégration locale sur une **seule** base MySQL/MariaDB `aquaflow`.
+> Les branches Oracle (`isra/*`) et la branche événements d'origine restent inchangées.
 
-## Installation XAMPP / MySQL (branche `isra/mysql-xampp`)
+## Installation XAMPP / MySQL (branche `event/user`)
 
 1. Démarrer **Apache** et **MySQL** dans XAMPP.
 2. Importer `database/aquaflow_mysql.sql` via phpMyAdmin ou :
    ```powershell
-   C:\xampp\mysql\bin\mysql.exe -uroot < database\aquaflow_mysql.sql
+   C:\xampp\mysql\bin\mysql.exe -uroot --default-character-set=utf8mb4 < database\aquaflow_mysql.sql
    ```
-   Cela crée la base `aquaflow`, les 2 tables et 6 comptes de test (mot de passe `Test1234!`).
+   Cela crée la base `aquaflow`, les **5 tables partagées** et 6 comptes de test
+   (mot de passe `Test1234!`). Le script utilise `CREATE TABLE IF NOT EXISTS` et
+   `INSERT IGNORE` : il ne supprime aucune donnée existante.
 3. Copier le dossier du projet dans `C:\xampp\htdocs\AquwaFlow`.
-4. Ouvrir `http://localhost/AquwaFlow/aquaflow_integration1/index.php?page=signin`.
-5. Identifiants : sous forme **e-mail** ou **téléphone** (ex. `admin@aquaflow.tn` / `20000001`).
+4. Si le module Événements est installé à côté, créer son fichier de surcharge local
+   (déjà ignoré par Git, ne jamais modifier `config/config.php`) :
+   ```php
+   <?php
+   // C:\xampp\htdocs\aquaflow-events\aquaflow-events\config\config.local.php
+   return ['dbname' => 'aquaflow'];
+   ```
+5. Ouvrir `http://localhost/AquwaFlow/aquaflow_integration1/index.php?page=signin`.
+6. Identifiants : sous forme **e-mail** ou **téléphone** (ex. `admin@aquaflow.tn` / `20000001`).
 
 Connexion dans `app/Models/Model.php` : `127.0.0.1:3306`, base `aquaflow`, utilisateur `root`,
 mot de passe vide (valeurs XAMPP). Surcharge possible via `DB_HOST`, `DB_PORT`, `DB_NAME`,
 `DB_USER`, `DB_PASS` — aucun identifiant réel n'est versionné.
+
+## Une seule base, cinq tables, zéro conflit
+
+| Table | Module | Remarque |
+|---|---|---|
+| `utilisateur` | Utilisateurs (MVC) | Comptes, rôles `A/C/P`, statuts `en_attente/actif/bloque/desactive`. |
+| `historique` | Utilisateurs (MVC) | Actions admin/profil, clé étrangère vers `utilisateur`. |
+| `users` | Événements | Comptes de test du faux login, rôles `citizen/plumber/admin`. |
+| `events` | Événements | Clés étrangères vers `users`. |
+| `event_registrations` | Événements | Clés étrangères vers `events` et `users`. |
+
+`users` (événements) et `utilisateur` (MVC) restent **deux tables distinctes par conception** :
+leurs colonnes, rôles et statuts ne sont pas compatibles. Les fusionner casserait les deux modules.
+Chaque module garde donc ses propres clés étrangères dans la même base `aquaflow`.
+
+### Migration depuis l'ancienne base `aquaflow_events` (une seule fois)
+
+Conserver `aquaflow_events` comme sauvegarde, puis copier ses données dans `aquaflow` :
+
+```sql
+INSERT INTO aquaflow.users (id, first_name, last_name, email, role, status, password_hash, created_at)
+SELECT id, first_name, last_name, email, role, status, password_hash, created_at FROM aquaflow_events.users;
+
+INSERT INTO aquaflow.events
+    (id, title, description, event_type, audience, starts_at, ends_at, location,
+     zone, capacity, status, cancel_reason, created_by, cancelled_by, cancelled_at, created_at)
+SELECT id, title, description, event_type, audience, starts_at, ends_at, location,
+       zone, capacity, status, cancel_reason, created_by, cancelled_by, cancelled_at, created_at
+FROM aquaflow_events.events;
+
+INSERT INTO aquaflow.event_registrations (id, event_id, user_id, registered_at, status, cancelled_at)
+SELECT id, event_id, user_id, registered_at, status, cancelled_at FROM aquaflow_events.event_registrations;
+```
+
+> Ne pas insérer `active_user_id` : c'est une colonne générée stockée. À vérifier :
+> `SELECT 'users',COUNT(*) FROM aquaflow.users UNION ALL SELECT 'events',COUNT(*) FROM aquaflow.events UNION ALL SELECT 'registrations',COUNT(*) FROM aquaflow.event_registrations;`
 
 ## Fonctionnalités
 
