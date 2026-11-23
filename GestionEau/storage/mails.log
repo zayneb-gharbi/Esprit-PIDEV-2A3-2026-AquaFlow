@@ -1,0 +1,5 @@
+=== 2026-11-23 10:19:06 ===
+To: admin@aquaflow.test
+Subject: Réinitialisation de votre mot de passe
+<p>Bonjour admin,</p><p>Pour choisir un nouveau mot de passe, cliquez sur ce lien (valable 1 heure) :</p><p><a href="http://localhost/GestionEau/index.php?action=reset_password&token=ae828d856ff835b71a3331f3954d2f92c7c8474233409fd71c4e5cee02f13a57">http://localhost/GestionEau/index.php?action=reset_password&token=ae828d856ff835b71a3331f3954d2f92c7c8474233409fd71c4e5cee02f13a57</a></p><p>Si vous n'êtes pas à l'origine de cette demande, ignorez ce message.</p>
+
