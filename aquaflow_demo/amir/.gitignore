@@ -2,4 +2,7 @@
 /var/*
 !/var/.gitkeep
 !/var/.htaccess
-/tests/node_modules/
+/tests/node_modules
+/config/oauth_*
+/config/*.json
+client_secret*.json

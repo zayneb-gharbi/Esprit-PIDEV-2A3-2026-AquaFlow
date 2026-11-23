@@ -1,4 +1,4 @@
 Options -Indexes
-<FilesMatch "^(router\.php|README\.md|DEMARRER_.*)$">
+<FilesMatch "^(router\.php|README\.md|.*\.bat|DEMARRER_.*)$">
     Require all denied
 </FilesMatch>

@@ -8,6 +8,8 @@ Ce dossier est une extension de la branche `mariem` du dépôt [Esprit-PIDEV-2A3
 
 ## Ouvrir et tester sur Windows
 
+Ouvrir d’abord [COMMENCER_ICI.html](COMMENCER_ICI.html) par double-clic : ce guide indique où cliquer et le résultat attendu pour chaque tâche. Il fonctionne hors ligne.
+
 1. Récupérer la branche de cette contribution, ou ajouter le dossier `amir` dans `aquaflow_demo` de la branche `mariem`.
 2. Installer XAMPP avec PHP 8.1 ou supérieur. Ouvrir XAMPP et démarrer **MySQL**.
 3. Ouvrir `aquaflow_demo/amir/DEMARRER_WINDOWS.bat` par double-clic.
@@ -18,7 +20,7 @@ PHP doit avoir les extensions `pdo_mysql`, `openssl` et `curl`. Le script utilis
 
 La base créée s’appelle `aquaflow_amir`. Elle contient uniquement les tables préfixées `amir_`. L’installateur ne supprime pas de données et ne réinitialise pas les mots de passe des comptes déjà présents. Les comptes générés sont des comptes de test, avec des adresses fictives et des mots de passe aléatoires.
 
-Pour une connexion MySQL différente, copier `config/local.example.php` en `config/local.php`, puis modifier uniquement les valeurs nécessaires. Le fichier réel est exclu de Git.
+Pour une connexion MySQL différente, ouvrir `CONFIGURER_CONNEXIONS_WINDOWS.bat`, puis modifier uniquement les valeurs nécessaires dans `config/local.php`. Le fichier réel est exclu de Git et les réglages existants sont conservés. `VERIFIER_WINDOWS.bat` vérifie PHP, les extensions, la base et la présence de la configuration, sans afficher les secrets.
 
 Sur Linux : `bash aquaflow_demo/amir/DEMARRER_LINUX.sh` depuis la racine du dépôt.
 
@@ -32,7 +34,7 @@ Se déconnecter, se connecter comme citoyen et essayer l’adresse `index.php?pa
 
 ### 2. Google et Facebook
 
-Les deux connexions sont implémentées côté serveur. Pour utiliser de vrais comptes, il faut d’abord configurer les applications Google et Meta du groupe, suivant [docs/GOOGLE_FACEBOOK.md](docs/GOOGLE_FACEBOOK.md). Aucun identifiant réel n’est fourni dans le dépôt.
+Les deux connexions sont implémentées côté serveur. Pour utiliser de vrais comptes, configurer les applications Google et Meta suivant [docs/GOOGLE_FACEBOOK.md](docs/GOOGLE_FACEBOOK.md). Aucun identifiant réel n’est fourni dans le dépôt. Si le JSON du client Web Google a été conservé lors de sa création, `IMPORTER_GOOGLE_WINDOWS.bat` permet de l’importer sans recopier le secret. Une valeur renseignée ne prouve pas que le fournisseur accepte la configuration : un essai réel reste nécessaire.
 
 Après configuration, utiliser **Google** ou **Facebook** depuis la connexion. Une première connexion crée un compte citoyen ; les connexions suivantes retrouvent ce compte. Le profil, les listes et la fiche admin utilisent la même base persistante.
 
@@ -52,7 +54,7 @@ La désactivation nécessite une connexion récente et un code valide. Les clés
 |---|---|
 | `assets/style.css` et `assets/script.js` | Chargés directement : même template, couleurs, tableaux et recherche. |
 | `models/Utilisateur.php` | Classe de base étendue par `models/UtilisateurPersistant.php`, avec les mêmes méthodes et champs. |
-| `controllers/UserController.php` | Réutilisé pour le profil, la modification et la désactivation du compte. |
+| `controllers/UserController.php` | Étendu par `AmirProfil` : vues et profil réutilisés ; mise à jour/invalidation des sessions dans le contrôleur de l’extension. |
 | `views/user/*.php` | Vues existantes réutilisées sans les modifier ; ajout des jetons de formulaire lors du rendu. |
 | `controllers/AdminController.php` | Réutilisé pour les statistiques. |
 | Listes citoyens/plombiers | Même présentation, avec ajout du lien vers la fiche détaillée. |
@@ -66,18 +68,24 @@ Pour l’intégration finale, adopter ce point d’entrée ou transférer ses co
 ## Organisation du code
 
 - `models/UtilisateurPersistant.php` : accès PDO aux comptes, compatible avec les méthodes du groupe.
+- `models/SecuriteUtilisateur.php` : requêtes PDO pour les tentatives de connexion, les secrets 2FA et les codes de secours.
+- `models/ConfigurationLocale.php` : lecture et enregistrement local des identifiants Google importés.
 - `controllers/DetailsController.php` : contrôle du rôle et sélection des informations de la fiche.
 - `controllers/SocialController.php` : Google/Facebook, vérification de l’identité, association et connexion.
 - `controllers/TotpController.php` : codes Google Authenticator, activation, vérification et secours.
 - `controllers/AuthController.php` : sessions et contrôle du premier/deuxième facteur ; connexion locale minimale pour tester et associer un compte.
-- `public/index.php` : routes, contrôle des accès, traitement des formulaires et réutilisation des pages du groupe.
+- `controllers/ProfilController.php` : adaptation du contrôleur du groupe pour maintenir les sessions après modification du profil.
+- `controllers/ApplicationController.php` : routes, contrôle des accès, traitement des formulaires et choix des vues.
+- `public/index.php` : point d’entrée minimal ; charge `config/bootstrap.php` puis lance l’application.
 - `views/` : nouveaux écrans dans le template existant.
+
+Les requêtes SQL de l’application se trouvent dans les modèles, avec la connexion PDO dans `config/database.php`. Les modèles ne lisent ni les formulaires HTTP ni les sessions. Les contrôleurs appellent les modèles et fournissent les données aux vues. Les scripts d’installation sous `bin/` sont des outils en ligne de commande, hors du parcours Web.
 
 La connexion locale est un support à ces trois tâches. Cette contribution ne réimplémente ni le changement/réinitialisation du mot de passe, ni l’envoi de mails, ni les historiques, ni l’export Excel.
 
 ## Vérifications
 
-**118 vérifications passent** : 62 contrôles métier/OAuth et 56 contrôles HTTP, sous **PHP 8.4.27 WebAssembly avec SQLite temporaire**. Les réponses Google/Facebook sont simulées dans les tests ; aucun vrai compte externe n’a été utilisé. Le schéma et l’installation MySQL sont fournis mais n’ont pas été exécutés sur XAMPP dans cet environnement.
+**140 vérifications passent** : 81 contrôles métier/OAuth/architecture et 59 contrôles HTTP, sous **PHP 8.4.27 WebAssembly avec SQLite temporaire**. Les réponses Google/Facebook sont simulées dans les tests ; aucun vrai compte externe n’a été utilisé. Le schéma et l’installation MySQL sont fournis mais n’ont pas été exécutés sur XAMPP dans cet environnement. Les lanceurs Windows restent à exécuter sur le PC de validation.
 
 ```bash
 cd aquaflow_demo/amir/tests
@@ -85,7 +93,7 @@ npm ci
 npm test
 ```
 
-Le rapport est dans [docs/resultats-tests.json](docs/resultats-tests.json). Les tests vérifient notamment les rôles, les identifiants invalides, CSRF, les signatures/claims Google, les jetons Facebook, les vecteurs RFC 6238, l’anti-rejeu, les codes de secours, les sessions et les pages du groupe réutilisées.
+Le rapport est dans [docs/resultats-tests.json](docs/resultats-tests.json). Les tests vérifient notamment les rôles, les identifiants invalides, CSRF, les signatures/claims Google, les jetons Facebook, les vecteurs RFC 6238, l’anti-rejeu, les codes de secours, les sessions et les pages du groupe réutilisées. Ils couvrent aussi l’import JSON Google sans écrasement des autres réglages, les transactions d’association sociale et la séparation SQL/contrôleurs/vues.
 
 ## Intégration Git
 
@@ -93,14 +101,35 @@ La branche de contribution est `amir/details-oauth-2fa`, basée sur `mariem` (`1
 
 Ne pas ajouter `config/local.php`, `var/MES_COMPTES.txt`, `var/cle.txt`, des fichiers de base locale ou `tests/node_modules`. Le `.gitignore` du dossier les exclut.
 
-Pour déposer le dossier manuellement sur une copie locale de `mariem` :
+Pour mettre à jour la branche de contribution déjà publiée :
+
+Ouvrir un terminal dans une copie locale propre du dépôt et récupérer la branche :
+
+```bash
+git switch amir/details-oauth-2fa
+git pull --ff-only
+```
+
+Ensuite, copier le dossier `aquaflow_demo/amir` de la nouvelle archive dans cette copie du dépôt. Conserver les éventuels `config/local.php` et `var/` privés présents sur le PC. Vérifier et publier les modifications :
+
+```bash
+git status --short
+git add aquaflow_demo/amir
+git diff --cached --stat
+git commit -m "fix(amir): séparer MVC et guider les tests OAuth et 2FA"
+git push origin amir/details-oauth-2fa
+```
+
+Les seules modifications attendues sont sous `aquaflow_demo/amir/`. Ne pas fusionner automatiquement les travaux du groupe. Si la mise à jour est déjà publiée, `git pull --ff-only` suffit ; aucun nouveau commit n’est nécessaire.
+
+Pour un premier dépôt sur une autre copie locale de `mariem`, utiliser un nouveau nom de branche :
 
 ```bash
 git switch mariem
-git switch -c amir/details-oauth-2fa
+git switch -c amir/integration-details-oauth-2fa
 git add aquaflow_demo/amir
 git commit -m "feat(amir): détails utilisateur, Google/Facebook et double authentification"
-git push -u origin amir/details-oauth-2fa
+git push -u origin amir/integration-details-oauth-2fa
 ```
 
 Si le compte n’a pas le droit d’écrire dans le dépôt du groupe, utiliser un fork et ouvrir une pull request vers `mariem`, ou demander un accès collaborateur à la propriétaire.
