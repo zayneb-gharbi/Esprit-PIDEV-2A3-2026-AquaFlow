@@ -3,6 +3,25 @@
 Ce document décrit les fonctionnalités ajoutées par Isra Benhassouna sur la base d'`origin/zayneb`
 (branche `isra/status-model` → `isra/block-unblock-backend` → `isra/block-unblock-ui` → `isra/edit-profile`).
 
+> **Branche `isra/mysql-xampp`** : port local de la base Oracle vers MySQL/MariaDB pour XAMPP.
+> Les branches `isra/*` précédentes restent sur Oracle ; ce port n'est qu'une branche de travail locale.
+
+## Installation XAMPP / MySQL (branche `isra/mysql-xampp`)
+
+1. Démarrer **Apache** et **MySQL** dans XAMPP.
+2. Importer `database/aquaflow_mysql.sql` via phpMyAdmin ou :
+   ```powershell
+   C:\xampp\mysql\bin\mysql.exe -uroot < database\aquaflow_mysql.sql
+   ```
+   Cela crée la base `aquaflow`, les 2 tables et 6 comptes de test (mot de passe `Test1234!`).
+3. Copier le dossier du projet dans `C:\xampp\htdocs\AquwaFlow`.
+4. Ouvrir `http://localhost/AquwaFlow/aquaflow_integration1/index.php?page=signin`.
+5. Identifiants : sous forme **e-mail** ou **téléphone** (ex. `admin@aquaflow.tn` / `20000001`).
+
+Connexion dans `app/Models/Model.php` : `127.0.0.1:3306`, base `aquaflow`, utilisateur `root`,
+mot de passe vide (valeurs XAMPP). Surcharge possible via `DB_HOST`, `DB_PORT`, `DB_NAME`,
+`DB_USER`, `DB_PASS` — aucun identifiant réel n'est versionné.
+
 ## Fonctionnalités
 
 | Fonctionnalité | Où | Détail |
@@ -24,6 +43,9 @@ Le motif du blocage n'a pas de colonne dédiée : il est stocké dans `HISTORIQU
 avec l'administrateur auteur et la date (déjà présents dans la table). Aucune migration de colonne.
 
 ## Migration à exécuter une seule fois
+
+> Sur la branche MySQL/XAMPP, importer uniquement `database/aquaflow_mysql.sql` (voir ci-dessus).
+> Les deux scripts Oracle ci-dessous concernent les branches `isra/*` d'origine.
 
 Dans Oracle SQL Developer connecté au schéma `AQUAFLOW` :
 

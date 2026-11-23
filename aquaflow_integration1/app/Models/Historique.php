@@ -48,17 +48,15 @@ class Historique
         $count->execute($params);
         $total = (int)$count->fetchColumn();
 
-        $sql = "SELECT action, description, date_action FROM (
-                    SELECT ordered_rows.*, ROWNUM AS rnum FROM (
-                        SELECT h.action, h.description, TO_CHAR(h.date_action, 'YYYY-MM-DD HH24:MI:SS') AS date_action
-                        FROM historique h{$where}
-                        ORDER BY h.date_action DESC
-                    ) ordered_rows WHERE ROWNUM <= :upper_bound
-                ) WHERE rnum > :offset";
+        $sql = "SELECT h.action, h.description,
+                       DATE_FORMAT(h.date_action, '%Y-%m-%d %H:%i:%s') AS date_action
+                FROM historique h{$where}
+                ORDER BY h.date_action DESC
+                LIMIT :limit OFFSET :offset";
         $stmt = $this->db->prepare($sql);
         foreach ($params as $k => $v) $stmt->bindValue(':' . ltrim($k, ':'), $v);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
         $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-        $stmt->bindValue(':upper_bound', $offset + $limit, PDO::PARAM_INT);
         $stmt->execute();
         return ['rows' => $stmt->fetchAll(), 'total' => $total];
     }
@@ -84,17 +82,15 @@ class Historique
         $count->execute($params);
         $total = (int)$count->fetchColumn();
 
-        $sql = "SELECT action, description, date_action, id_user, nom, prenom, email, role FROM (
-                    SELECT ordered_rows.*, ROWNUM AS rnum FROM (
-                        SELECT h.action, h.description, TO_CHAR(h.date_action, 'YYYY-MM-DD HH24:MI:SS') AS date_action,
-                               u.id_user, u.nom, u.prenom, u.email, u.role" . $base . "
-                        ORDER BY h.date_action DESC
-                    ) ordered_rows WHERE ROWNUM <= :upper_bound
-                ) WHERE rnum > :offset";
+        $sql = "SELECT h.action, h.description,
+                       DATE_FORMAT(h.date_action, '%Y-%m-%d %H:%i:%s') AS date_action,
+                       u.id_user, u.nom, u.prenom, u.email, u.role" . $base . "
+                ORDER BY h.date_action DESC
+                LIMIT :limit OFFSET :offset";
         $stmt = $this->db->prepare($sql);
         foreach ($params as $k => $v) $stmt->bindValue(':' . ltrim($k, ':'), $v);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
         $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-        $stmt->bindValue(':upper_bound', $offset + $limit, PDO::PARAM_INT);
         $stmt->execute();
         return ['rows' => $stmt->fetchAll(), 'total' => $total];
     }
@@ -115,17 +111,18 @@ class Historique
             $params['action'] = $f['action'];
         }
         if ($f['date'] !== '') {
+            $dayStart = $f['date'] . ' 00:00:00';
+            $nextDay  = date('Y-m-d', strtotime($f['date'] . ' +1 day')) . ' 00:00:00';
             if ($f['date_mode'] === 'before') {
-                $where .= " AND h.date_action < TO_TIMESTAMP(:date_before, 'YYYY-MM-DD')";
-                $params['date_before'] = $f['date'];
+                $where .= " AND h.date_action < :date_before";
+                $params['date_before'] = $dayStart;
             } elseif ($f['date_mode'] === 'after') {
-                $where .= " AND h.date_action >= TO_TIMESTAMP(:date_after, 'YYYY-MM-DD') + INTERVAL '1' DAY";
-                $params['date_after'] = $f['date'];
+                $where .= " AND h.date_action >= :date_after";
+                $params['date_after'] = $nextDay;
             } else {
-                $where .= " AND h.date_action >= TO_TIMESTAMP(:date_start, 'YYYY-MM-DD')
-                            AND h.date_action < TO_TIMESTAMP(:date_end, 'YYYY-MM-DD') + INTERVAL '1' DAY";
-                $params['date_start'] = $f['date'];
-                $params['date_end'] = $f['date'];
+                $where .= " AND h.date_action >= :date_start AND h.date_action < :date_end";
+                $params['date_start'] = $dayStart;
+                $params['date_end']   = $nextDay;
             }
         }
     }
@@ -134,7 +131,7 @@ class Historique
     {
         $total = (int)$this->db->query('SELECT COUNT(*) FROM historique')->fetchColumn();
         $today = (int)$this->db->query(
-            "SELECT COUNT(*) FROM historique WHERE TRUNC(date_action) = TRUNC(SYSDATE)"
+            "SELECT COUNT(*) FROM historique WHERE DATE(date_action) = CURDATE()"
         )->fetchColumn();
         $users = (int)$this->db->query(
             'SELECT COUNT(DISTINCT id_user) FROM historique'
