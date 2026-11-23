@@ -1,0 +1,545 @@
+/*
+ * nova.css — couche visuelle NOVA ("Ville & Eau").
+ * Tokens et proportions repris de NOVA_DESIGN_SYSTEM.md et de l'ancien
+ * template Views/assets/css/style.css (branche `evenement` @ b042088).
+ *
+ * Ce fichier est charge APRES user.css et app.css : il ne supprime aucune
+ * regle fonctionnelle, il ne fait que mapper les classes existantes sur le
+ * design system NOVA. Les actions (blocage, profil, historique, export,
+ * modale) restent intactes.
+ */
+
+:root {
+    /* Navy — structure */
+    --navy-950: #042650;
+    --navy-900: #063B6E;
+    --navy-800: #0A4678;
+    --navy-700: #0E5A8F;
+    --ink-900: #0A3560;
+    --ink-700: #3F5C78;
+    --ink-500: #6B8399;
+    --ink-400: #8FA3B5;
+
+    /* Teal — action */
+    --teal-500: #14B8A6;
+    --teal-600: #0FA192;
+    --teal-700: #0B8579;
+    --teal-300: #6EDDD3;
+    --teal-100: #DDF5F1;
+    --teal-50: #EEFAF8;
+    --on-teal: #05294D;
+
+    /* Surfaces */
+    --bg-page: #F4F9FC;
+    --surface: #FFFFFF;
+    --border: #E3EDF4;
+    --border-soft: #EDF3F8;
+
+    /* Statuts */
+    --st-pending-bg: #FEF1D3;
+    --st-pending-fg: #B26A00;
+    --st-todo-bg: #FDE6D3;
+    --st-todo-fg: #C25A12;
+    --st-progress-bg: #DCEEFB;
+    --st-progress-fg: #1C6CA8;
+    --st-done-bg: #D6F5E8;
+    --st-done-fg: #0B8A63;
+    --st-neutral-bg: #EAF0F5;
+    --st-neutral-fg: #5B7389;
+
+    --positive: #0B8A63;
+    --warning: #B26A00;
+    --danger: #D64545;
+
+    --hero-gradient: linear-gradient(110deg, #042650 0%, #07407A 50%, #0E6A94 100%);
+
+    --r-sm: 8px;
+    --r-md: 10px;
+    --r-lg: 16px;
+    --r-xl: 20px;
+    --r-pill: 999px;
+
+    --shadow-card: 0 1px 2px rgba(8,50,90,.04), 0 4px 14px rgba(8,50,90,.04);
+    --shadow-pop: 0 8px 24px rgba(8,50,90,.12);
+
+    --sidebar-w: 232px;
+    --content-pad: 32px;
+    --grid-gap: 20px;
+
+    /*Compatibilite avec les variables deja utilisees par app.css / user.css */
+    --navy: var(--navy-900);
+    --blue: var(--teal-600);
+    --light-blue: var(--teal-50);
+    --turquoise: var(--teal-500);
+    --text: var(--ink-700);
+    --muted: var(--ink-500);
+}
+
+html, body {
+    font-family: "Plus Jakarta Sans", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--bg-page);
+    color: var(--ink-700);
+    -webkit-font-smoothing: antialiased;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+a { color: inherit; text-decoration: none; }
+h1, h2, h3, h4 { color: var(--ink-900); }
+
+/* ---------- Coquille applicative : la topbar devient le sidebar NOVA ---------- */
+
+.topbar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: var(--sidebar-w);
+    height: 100vh;
+    margin: 0;
+    padding: 24px 16px;
+    background: var(--navy-900);
+    border: 0;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 0;
+    z-index: 30;
+}
+
+.topbar .brand-link {
+    display: block;
+    margin: 0 0 28px;
+    padding: 0 8px;
+    font-size: 0; /* le texte "Aqua Flow" est remplace par le wordmark NOVA */
+    line-height: 1;
+}
+
+.topbar .brand-link::before {
+    content: "NOVA";
+    display: block;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    color: #fff;
+}
+
+.topbar .brand-link::after {
+    content: "Ville & Eau";
+    display: block;
+    margin-top: 3px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: #7FA6C9;
+}
+
+.topbar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.topbar nav a {
+    display: flex;
+    align-items: center;
+    height: 42px;
+    margin: 0;
+    padding: 0 14px;
+    border: 1px solid transparent;
+    border-radius: var(--r-md);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background .15s ease, border-color .15s ease;
+}
+
+.topbar nav a:hover {
+    background: rgba(255,255,255,.06);
+    color: #fff;
+}
+
+.topbar nav a.active {
+    background: rgba(20,184,166,.22);
+    border-color: rgba(20,184,166,.55);
+    color: #fff;
+    font-weight: 600;
+    box-shadow: inset 3px 0 0 var(--teal-300);
+}
+
+.topbar nav a[href*="logout"] {
+    margin-top: 24px;
+    color: #B9D3EA;
+}
+
+.page-main {
+    margin-left: var(--sidebar-w);
+    padding: 28px var(--content-pad) 40px;
+    min-height: 100vh;
+}
+
+.footer {
+    margin-left: var(--sidebar-w);
+    padding: 0 var(--content-pad) 18px;
+    background: var(--bg-page);
+    color: var(--ink-400);
+}
+
+/* ---------- Cartes, titres, tableaux ---------- */
+
+.card {
+    max-width: 1180px;
+    margin: 0 auto 20px;
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-card);
+}
+
+.card.narrow { max-width: 720px; }
+
+.card h1,
+.table-head h1 {
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1.25;
+    color: var(--ink-900);
+}
+
+.card .sub,
+.card .subtitle,
+.card .message {
+    color: var(--ink-500);
+}
+
+.table-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.table-head input[type="text"] {
+    height: 40px;
+    padding: 0 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    font-family: inherit;
+}
+
+.table-head input[type="text"]:focus {
+    outline: none;
+    border-color: var(--teal-500);
+    box-shadow: 0 0 0 3px rgba(20,184,166,.18);
+}
+
+table { border-collapse: collapse; }
+
+thead th {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-400);
+}
+
+table.list th,
+table.info th {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-400);
+}
+
+td {
+    font-size: 12.5px;
+    color: var(--ink-700);
+    border-bottom: 1px solid var(--border-soft);
+}
+
+/* ---------- Boutons ---------- */
+
+.btn,
+.btn-light,
+.btn-outline,
+.btn-sm,
+.primary-btn,
+.btn-outline-danger,
+.btn-outline-teal,
+.btn-approve,
+.btn-reject {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 18px;
+    border-radius: var(--r-md);
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.btn,
+.primary-btn {
+    background: var(--teal-500);
+    color: var(--on-teal);
+    border: 1px solid transparent;
+    box-shadow: 0 4px 12px rgba(20,184,166,.28);
+}
+
+.btn:hover,
+.primary-btn:hover {
+    background: var(--teal-600);
+    color: var(--on-teal);
+    transform: none;
+}
+
+.btn-light,
+.btn-outline {
+    background: #fff;
+    color: var(--ink-900);
+    border: 1px solid var(--border);
+    box-shadow: none;
+}
+
+.btn-sm {
+    height: 30px;
+    padding: 0 12px;
+    background: var(--teal-50);
+    color: var(--teal-700);
+    border: 1px solid rgba(20,184,166,.35);
+    box-shadow: none;
+}
+
+.btn-outline-danger {
+    background: #fff;
+    color: var(--danger);
+    border: 1px solid rgba(214,69,69,.45);
+    box-shadow: none;
+}
+
+.btn-outline-teal {
+    background: #fff;
+    color: var(--teal-700);
+    border: 1px solid rgba(20,184,166,.45);
+    box-shadow: none;
+}
+
+.btn-approve {
+    background: var(--positive);
+    color: #fff;
+    border-color: transparent;
+}
+
+.btn-reject {
+    background: var(--danger);
+    color: #fff;
+    border-color: transparent;
+}
+
+/* ---------- Pastilles de statut ---------- */
+
+.status,
+.badge,
+.pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 11px;
+    border-radius: var(--r-pill);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 14px;
+}
+
+.status,
+.badge {
+    background: var(--st-done-bg);
+    color: var(--st-done-fg);
+}
+
+.status.inactive { background: var(--st-neutral-bg); color: var(--st-neutral-fg); }
+
+.status.status-actif,
+.status.status-present { background: var(--st-done-bg); color: var(--st-done-fg); }
+
+.status.status-en_attente { background: var(--st-pending-bg); color: var(--st-pending-fg); }
+
+.status.status-bloque { background: var(--st-todo-bg); color: var(--st-todo-fg); }
+
+.status.status-desactive,
+.status.status-annule { background: var(--st-neutral-bg); color: var(--st-neutral-fg); }
+
+/* ---------- Statistiques ---------- */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--grid-gap);
+}
+
+.stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-card);
+    padding: 20px 22px;
+}
+
+.stat-card p {
+    color: var(--ink-500);
+    font-size: 12.5px;
+}
+
+.stat-card h2 {
+    color: var(--ink-900);
+    font-size: 30px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Filtres, messages, pagination ---------- */
+
+.filters input,
+.filters select {
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    background: #fff;
+    color: var(--ink-900);
+}
+
+.filters input:focus,
+.filters select:focus {
+    outline: none;
+    border-color: var(--teal-500);
+    box-shadow: 0 0 0 3px rgba(20,184,166,.18);
+}
+
+.message {
+    border-radius: var(--r-md);
+    padding: 12px 14px;
+    font-size: 13px;
+}
+
+.message.success {
+    background: var(--teal-50);
+    color: var(--teal-700);
+    border: 1px solid rgba(20,184,166,.35);
+}
+
+.message.error {
+    background: #FDECEC;
+    color: var(--danger);
+    border: 1px solid rgba(214,69,69,.3);
+}
+
+.pagination a {
+    border-radius: var(--r-md);
+    color: var(--teal-700);
+}
+
+.pagination a.active {
+    background: var(--teal-500);
+    color: var(--on-teal);
+}
+
+/* ---------- Modale blocage ---------- */
+
+.modal-backdrop { background: rgba(4,38,80,.55); }
+
+.modal-dialog {
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-pop);
+}
+
+.modal-dialog h2 { color: var(--ink-900); }
+.modal-text { color: var(--ink-500); }
+.modal-field label { color: var(--ink-900); }
+
+.modal-field textarea:focus {
+    outline: none;
+    border-color: var(--teal-500);
+    box-shadow: 0 0 0 3px rgba(20,184,166,.18);
+}
+
+/* ---------- Page de connexion : memes tokens NOVA ---------- */
+
+.page-container { background: var(--bg-page); }
+
+.visual-section {
+    background: var(--hero-gradient);
+    border-radius: var(--r-xl);
+}
+
+.visual-section .eyebrow {
+    color: var(--teal-300);
+    letter-spacing: .12em;
+}
+
+.visual-content h1 span { color: var(--teal-300); }
+.welcome-tag { color: var(--teal-700); }
+.form-heading h2 { color: var(--ink-900); }
+.form-heading p { color: var(--ink-500); }
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--teal-500);
+    box-shadow: 0 0 0 3px rgba(20,184,166,.18);
+}
+
+.label-row a,
+.text-btn,
+.toggle-password { color: var(--teal-700); }
+
+.role-card.selected {
+    border-color: var(--teal-500);
+    background: var(--teal-50);
+}
+
+.role-icon { color: var(--teal-700); }
+.security-note span { color: var(--teal-500); }
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1024px) {
+    .topbar { width: 72px; padding: 20px 10px; }
+    .topbar .brand-link { padding: 0; text-align: center; }
+    .topbar .brand-link::before { content: "N"; font-size: 20px; }
+    .topbar .brand-link::after { content: ""; }
+    .topbar nav a {
+        font-size: 0;
+        justify-content: center;
+        padding: 0;
+    }
+    .topbar nav a::first-letter { font-size: 14px; }
+    .page-main, .footer { margin-left: 72px; }
+}
+
+@media (max-width: 768px) {
+    .topbar {
+        position: static;
+        width: 100%;
+        height: auto;
+        padding: 12px 16px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    .topbar .brand-link { margin: 0 16px 8px 0; }
+    .topbar .brand-link::before { content: "NOVA"; }
+    .topbar .brand-link::after { content: "Ville & Eau"; }
+    .topbar nav { flex-direction: row; flex-wrap: wrap; }
+    .topbar nav a { height: 34px; padding: 0 10px; font-size: 12px; }
+    .topbar nav a[href*="logout"] { margin-top: 0; }
+    .page-main, .footer { margin-left: 0; }
+    .page-container { grid-template-columns: 1fr; }
+    .card { padding: 20px; }
+}

@@ -31,6 +31,20 @@ Connexion dans `app/Models/Model.php` : `127.0.0.1:3306`, base `aquaflow`, utili
 mot de passe vide (valeurs XAMPP). Surcharge possible via `DB_HOST`, `DB_PORT`, `DB_NAME`,
 `DB_USER`, `DB_PASS` — aucun identifiant réel n'est versionné.
 
+## Apparence NOVA et documents de référence
+
+- La couche visuelle **NOVA « Ville & Eau »** est appliquée par
+  `app/Views/assets/css/nova.css`, chargée **après** `user.css` et `app.css` dans
+  `app/Views/partials/head.php`. Elle ne modifie aucune logique : elle mappe seulement
+  les classes existantes sur les tokens du `NOVA_DESIGN_SYSTEM.md`
+  (`--navy-900: #063B6E`, `--teal-500: #14B8A6`, sidebar fixe, boutons teal à texte navy).
+- Les documents qu'Isra voulait garder sont versionnés à la racine du dépôt :
+  `START_HERE.md`, `ISRA_REPO_AUDIT_AND_PLAN.md`, `ISRA_USER_MANAGEMENT_BRIEF.md`,
+  `NOVA_DESIGN_SYSTEM.md`, `AQUAFLOW_MODULES_SPEC.md` et `TODO_Semaine_Prochaine.md`.
+- Index lisible dans le navigateur :
+  `http://localhost/AquwaFlow/aquaflow_integration1/docs.php`
+  (cliquez sur un document pour le lire, ou sur « Ouvrir le .md brut »).
+
 ## Une seule base, cinq tables, zéro conflit
 
 | Table | Module | Remarque |

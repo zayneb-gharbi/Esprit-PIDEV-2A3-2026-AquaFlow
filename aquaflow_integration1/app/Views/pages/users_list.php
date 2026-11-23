@@ -46,7 +46,7 @@ $statutLabels = [
                             <td><?= e($u['email']) ?></td>
                             <td><?= e($u['telephone']) ?></td>
                             <td>
-                                <span class="status <?= $u['statut'] == 'actif' ? '' : 'inactive' ?>">
+                                <span class="status status-<?= e($u['statut']) ?> <?= $u['statut'] == 'actif' ? '' : 'inactive' ?>">
                                     <?= e($statutLabels[$u['statut']] ?? $u['statut']) ?>
                                 </span>
                             </td>
