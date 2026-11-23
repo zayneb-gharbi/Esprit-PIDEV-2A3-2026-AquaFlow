@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../models/SecuriteUtilisateur.php';
+
 class AmirAuth
 {
     private $model;
@@ -35,15 +37,8 @@ class AmirAuth
 
     public static function limiter($cle, $maximum = 5)
     {
-        $db = AmirDatabase::connexion();
-        $cle = hash('sha256', $cle);
-        $db->prepare('DELETE FROM amir_tentatives WHERE instant<?')->execute([time() - 900]);
-        $requete = $db->prepare('SELECT COUNT(*) FROM amir_tentatives WHERE cle=?');
-        $requete->execute([$cle]);
-        if ((int) $requete->fetchColumn() >= $maximum) {
-            throw new DomainException('Trop de tentatives. Réessaie dans 15 minutes.');
-        }
-        $db->prepare('INSERT INTO amir_tentatives(cle,instant) VALUES (?,?)')->execute([$cle, time()]);
+        $securite = new SecuriteUtilisateur(AmirDatabase::connexion());
+        $securite->limiter($cle, $maximum);
     }
 
     public function utilisateur()

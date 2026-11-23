@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../models/SecuriteUtilisateur.php';
+
 class AmirTotp
 {
 
@@ -116,27 +118,15 @@ class AmirTotp
         if ($step === null) {
             throw new DomainException('Code incorrect. Vérifie l’heure de ton téléphone.');
         }
-        $db = AmirDatabase::connexion();
-        $db->beginTransaction();
-        try {
-            $requete = $db->prepare("UPDATE amir_utilisateurs SET totp_secret=?,totp_last=?,version=version+1 WHERE id=? AND version=? AND statut='Actif' AND totp_secret IS NULL");
-            $requete->execute([self::chiffrer($setup['secret']), $step, $user['id'], $user['version']]);
-            if ($requete->rowCount() !== 1) {
-                throw new DomainException('Le compte a changé. Reconnecte-toi.');
-            }
-            $codes = [];
-            for ($i = 0; $i < 8; $i++) {
-                $code = bin2hex(random_bytes(8));
-                $codes[] = $code;
-                $db->prepare('INSERT INTO amir_secours(utilisateur_id,empreinte) VALUES (?,?)')->execute([$user['id'],
-                        hash('sha256', $code)]);
-            }
-            $db->commit();
+        $codes = [];
+        $empreintes = [];
+        for ($i = 0; $i < 8; $i++) {
+            $code = bin2hex(random_bytes(8));
+            $codes[] = $code;
+            $empreintes[] = hash('sha256', $code);
         }
-        catch (Throwable $e) {
-            $db->rollBack();
-            throw $e;
-        }
+        $securite = new SecuriteUtilisateur(AmirDatabase::connexion());
+        $securite->activer2fa($user['id'], $user['version'], self::chiffrer($setup['secret']), $step, $empreintes);
         unset($_SESSION['setup_totp'], $_SESSION['oauth']);
         $_SESSION['codes_secours'] = $codes;
         $_SESSION['auth']['version'] = (int) $user['version'] + 1;
@@ -145,25 +135,19 @@ class AmirTotp
     public static function verifier($user, $code)
     {
         AmirAuth::limiter('totp-' . $user['id']);
-        $db = AmirDatabase::connexion();
-        $requete = $db->prepare("SELECT * FROM amir_utilisateurs WHERE id=? AND version=? AND statut='Actif'");
-        $requete->execute([$user['id'], $user['version']]);
-        $current = $requete->fetch();
+        $securite = new SecuriteUtilisateur(AmirDatabase::connexion());
+        $current = $securite->utilisateurActif($user['id'], $user['version']);
         if (!$current || !$current['totp_secret']) {
             throw new DomainException('Reconnecte-toi pour continuer.');
         }
         if (is_string($code) && preg_match('/^[a-f0-9]{16}$/', $code)) {
-            $requete = $db->prepare('DELETE FROM amir_secours WHERE utilisateur_id=? AND empreinte=?');
-            $requete->execute([$user['id'], hash('sha256', $code)]);
-            if ($requete->rowCount() === 1) {
+            if ($securite->consommerSecours($user['id'], $user['version'], hash('sha256', $code))) {
                 return;
             }
         }
         $step = self::trouver(self::dechiffrer($current['totp_secret']), $code, (int) $current['totp_last']);
         if ($step !== null) {
-            $requete = $db->prepare("UPDATE amir_utilisateurs SET totp_last=? WHERE id=? AND version=? AND totp_last<? AND statut='Actif' AND totp_secret=?");
-            $requete->execute([$step, $user['id'], $user['version'], $step, $current['totp_secret']]);
-            if ($requete->rowCount() === 1) {
+            if ($securite->consommerTotp($user['id'], $user['version'], $current['totp_secret'], $step)) {
                 return;
             }
         }
@@ -174,21 +158,8 @@ class AmirTotp
     {
         AmirAuth::recente();
         self::verifier($user, $code);
-        $db = AmirDatabase::connexion();
-        $db->beginTransaction();
-        try {
-            $requete = $db->prepare("UPDATE amir_utilisateurs SET totp_secret=NULL,totp_last=-1,version=version+1 WHERE id=? AND version=? AND statut='Actif'");
-            $requete->execute([$user['id'], $user['version']]);
-            if ($requete->rowCount() !== 1) {
-                throw new DomainException('Le compte a changé.');
-            }
-            $db->prepare('DELETE FROM amir_secours WHERE utilisateur_id=?')->execute([$user['id']]);
-            $db->commit();
-        }
-        catch (Throwable $e) {
-            $db->rollBack();
-            throw $e;
-        }
+        $securite = new SecuriteUtilisateur(AmirDatabase::connexion());
+        $securite->desactiver2fa($user['id'], $user['version']);
         $_SESSION['auth']['version'] = (int) $user['version'] + 1;
         unset($_SESSION['codes_secours'], $_SESSION['setup_totp'], $_SESSION['oauth']);
     }

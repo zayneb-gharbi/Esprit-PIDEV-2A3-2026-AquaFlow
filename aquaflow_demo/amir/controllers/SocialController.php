@@ -184,10 +184,7 @@ class AmirSocial
 
     private function associer($provider, $subject, $info, $session, $user)
     {
-        $db = AmirDatabase::connexion();
-        $requete = $db->prepare('SELECT utilisateur_id FROM amir_identites WHERE fournisseur=? AND identifiant=?');
-        $requete->execute([$provider, $subject]);
-        $id = $requete->fetchColumn();
+        $id = $this->model->idSocial($provider, $subject);
         if ($session['id'] !== null) {
             if (!$user || (int) $user['id'] !== $session['id'] || (int) $user['version'] !== $session['version']) {
                 throw new DomainException('Reconnecte-toi avant d’associer ce service.');
@@ -197,13 +194,7 @@ class AmirSocial
                 throw new DomainException('Cette identité est déjà associée à un autre compte.');
             }
             if ($id === false) {
-                try {
-                    $db->prepare('INSERT INTO amir_identites(utilisateur_id,fournisseur,identifiant) VALUES (?,?,?)')->execute([$user['id'],
-                            $provider, $subject]);
-                }
-                catch (PDOException $e) {
-                    throw new DomainException('Un compte de ce service est déjà associé.');
-                }
+                $this->model->associerSocial($user['id'], $provider, $subject);
             }
             $_SESSION['message'] = 'Compte externe associé.';
             return 'security';
@@ -222,17 +213,7 @@ class AmirSocial
         if ($nom === '') {
             $nom = 'Utilisateur AquaFlow';
         }
-        $db->beginTransaction();
-        try {
-            $created = $this->model->create($nom, $email, bin2hex(random_bytes(32)), 1);
-            $db->prepare('INSERT INTO amir_identites(utilisateur_id,fournisseur,identifiant) VALUES (?,?,?)')->execute([$created['id'],
-                    $provider, $subject]);
-            $db->commit();
-        }
-        catch (Throwable $e) {
-            $db->rollBack();
-            throw $e;
-        }
+        $created = $this->model->creerSocial($nom, $email, $provider, $subject);
         return $this->auth->premierFacteur($created);
     }
 }
