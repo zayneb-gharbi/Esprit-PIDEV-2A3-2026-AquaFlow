@@ -143,5 +143,81 @@ $secret=$_SESSION['setup_totp']['secret'];AmirTotp::activer($user,AmirTotp::code
 AmirAuth::effacer();
 check(callbackFixture($social,'facebook')==='challenge' && $auth->utilisateur()===null,'Facebook ne contourne pas le deuxième facteur');
 check(!isset($_SESSION['oauth']),'State consommé une seule fois');
+
+$db->exec('DELETE FROM amir_tentatives');
+$auth->premierFacteur($google);
+AmirTotp::preparer($google);
+$googleSecret = $_SESSION['setup_totp']['secret'];
+AmirTotp::activer($google, AmirTotp::code($googleSecret, intdiv(time(), 30)));
+$backup = $_SESSION['codes_secours'][0];
+$google = $model->getById($google['id']);
+$social->subject = 'google-user-123';
+$social->email = 'google@test.test';
+AmirAuth::effacer();
+check(callbackFixture($social, 'google') === 'challenge' && $auth->utilisateur() === null, 'Google ne contourne pas le deuxième facteur');
+$auth->terminer2fa($backup);
+check($auth->utilisateur()['id'] === $google['id'], 'Google puis code de secours ouvrent le profil attendu');
+AmirAuth::effacer();
+$social->commencer('facebook', null);
+$state = $_SESSION['oauth']['state'];
+$before = count($social->requests);
+refuse(fn() => $social->retour(['provider'=>'facebook','state'=>$state,'error'=>'access_denied'], null), 'Annulation Facebook traitée sans ouvrir de session');
+check(count($social->requests) === $before && !isset($_SESSION['oauth']), 'Annulation sans échange réseau et state consommé');
+$before = (int) $db->query('SELECT COUNT(*) FROM amir_utilisateurs')->fetchColumn();
+refuse(fn() => $model->creerSocial('Compte concurrent', 'concurrent@test.test', 'google', 'google-user-123'), 'Identité sociale déjà utilisée refusée');
+check((int) $db->query('SELECT COUNT(*) FROM amir_utilisateurs')->fetchColumn() === $before, 'Transaction sociale annulée sans compte orphelin');
+$db->exec('DELETE FROM amir_tentatives');
+$securite = new SecuriteUtilisateur($db);
+$remaining = $db->query('SELECT empreinte FROM amir_secours WHERE utilisateur_id=' . (int) $google['id'])->fetchColumn();
+$db->prepare('UPDATE amir_utilisateurs SET version=version+1 WHERE id=?')->execute([$google['id']]);
+check(!$securite->consommerSecours($google['id'], $google['version'], $remaining), 'Un changement de compte empêche la consommation d’un secours avec une ancienne version');
+$requete = $db->prepare('SELECT COUNT(*) FROM amir_secours WHERE utilisateur_id=? AND empreinte=?');
+$requete->execute([$google['id'], $remaining]);
+check((int) $requete->fetchColumn() === 1, 'Code de secours conservé après refus de la session périmée');
+
+require_once __DIR__ . '/../models/ConfigurationLocale.php';
+$configFile = __DIR__ . '/../config/local.php';
+$originalConfig = file_get_contents($configFile);
+try {
+    $initialConfig = amirConfig();
+    $initialConfig['db_password'] = "test'local\\password";
+    file_put_contents($configFile, '<?php return ' . var_export($initialConfig, true) . ';');
+    $configuration = new ConfigurationLocale();
+    $jsonFile = __DIR__ . '/../var/google-fixture.json';
+    $credential = ['web'=>['client_id'=>'12345-fixture.apps.googleusercontent.com','client_secret'=>"test-secret-avec'apostrophe\\",'redirect_uris'=>['http://127.0.0.1:8000/amir/public/index.php?page=oauth_callback&provider=google']]];
+    file_put_contents($jsonFile, json_encode($credential));
+    $configuration->importerGoogle($jsonFile);
+    $actual = amirConfig();
+    check($actual['google_id'] === $credential['web']['client_id'] && $actual['google_secret'] === $credential['web']['client_secret'], 'Import JSON Google et échappement des valeurs dans PHP');
+    check($actual['facebook_secret'] === $initialConfig['facebook_secret'] && $actual['db_password'] === $initialConfig['db_password'], 'Import Google conserve Facebook et la configuration MySQL');
+    $saved = file_get_contents($configFile);
+    foreach (['redirect','desktop','secret','client'] as $case) {
+        $invalid = $credential;
+        if ($case === 'redirect') { $invalid['web']['redirect_uris'] = ['https://example.test/callback']; }
+        if ($case === 'desktop') { $invalid = ['installed'=>$credential['web']]; }
+        if ($case === 'secret') { unset($invalid['web']['client_secret']); }
+        if ($case === 'client') { $invalid['web']['client_id'] = 'invalid'; }
+        file_put_contents($jsonFile, json_encode($invalid));
+        refuse(fn() => $configuration->importerGoogle($jsonFile), 'Import Google refusé : ' . $case);
+    }
+    check(file_get_contents($configFile) === $saved, 'Un import invalide ne remplace pas la configuration existante');
+} finally {
+    file_put_contents($configFile, $originalConfig);
+    if (is_file($jsonFile)) { unlink($jsonFile); }
+}
+foreach (['controllers','views','public'] as $directory) {
+    foreach (glob(__DIR__ . '/../' . $directory . '/*.php') as $file) {
+        foreach (token_get_all(file_get_contents($file)) as $token) {
+            if (is_array($token) && $token[0] === T_CONSTANT_ENCAPSED_STRING
+                && preg_match('/\b(SELECT\s+.+\s+FROM|INSERT\s+INTO|UPDATE\s+\w+\s+SET|DELETE\s+FROM)\b/is', $token[1])) {
+                throw new RuntimeException('SQL hors modèle : ' . basename($file));
+            }
+        }
+    }
+}
+check(true, 'MVC : aucune requête SQL dans les contrôleurs, vues et point d’entrée');
+foreach (glob(__DIR__ . '/../models/*.php') as $file) {
+    check(!preg_match('/\$_(SESSION|POST|GET|SERVER)\b/', file_get_contents($file)), 'Modèle indépendant de HTTP et des sessions : ' . basename($file));
+}
 file_put_contents(__DIR__.'/unit-results.json',json_encode($checks,JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
 echo count($checks)." vérifications métier et OAuth réussies (réponses externes simulées).\n";

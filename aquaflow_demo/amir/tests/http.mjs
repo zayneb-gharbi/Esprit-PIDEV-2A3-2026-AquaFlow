@@ -35,8 +35,10 @@ r=await request('admin','page=details&id=1%20OR%201=1');assert(r.httpStatusCode=
 r=await request('admin','page=details&id=999');assert(r.httpStatusCode===404,'Fiche absente : 404');
 r=await request('admin','page=details&id[]=2');assert(r.httpStatusCode===400,'ID tableau refusé');
 r=await request('citizen','page=profile');assert(r.text.includes('Mes informations personnelles')&&r.text.includes('citoyen@test.test'),'Vue profil de Mariem réutilisée');
-r=await request('citizen','page=edit');r=await request('citizen','page=edit',{csrf:token(r),nom:'<script>alert(1)</script>',email:'citoyen@test.test',telephone:'22123456',adresse:'Tunis'});assert(r.httpStatusCode===302&&location(r).includes('profile'),'Modification via le contrôleur de Mariem');
+await login('citizen-second-session','citoyen@test.test');
+r=await request('citizen','page=edit');r=await request('citizen','page=edit',{csrf:token(r),nom:'<script>alert(1)</script>',email:'citoyen@test.test',telephone:'22123456',adresse:'Tunis'});assert(r.httpStatusCode===303&&location(r).includes('profile'),'Modification du profil avec mise à jour de la session');
 r=await request('citizen','page=profile');assert(r.httpStatusCode===200&&r.text.includes('&lt;script&gt;')&&!r.text.includes('<script>alert(1)</script>'),'Profil persistant et XSS échappée');
+r=await request('citizen-second-session','page=profile');assert(location(r).includes('login'),'Une modification du profil invalide les autres sessions');
 r=await request('citizen','page=security');r=await request('citizen','page=security',{csrf:token(r),action:'prepare'});assert(r.httpStatusCode===303,'Préparation 2FA');
 r=await request('citizen','page=security');const secret=r.text.match(/class="secret">([^<]+)</)[1];assert(/^[A-Z2-7]{32}$/.test(secret),'Clé Google Authenticator de vingt octets');
 r=await request('citizen','page=security',{csrf:token(r),action:'enable',code:'bad'});assert(r.httpStatusCode===422,'Activation sans bon code refusée');
@@ -51,7 +53,7 @@ r=await request('citizen','page=challenge');r=await request('citizen','page=chal
 r=await request('citizen','page=challenge');r=await request('citizen','page=challenge',{csrf:token(r),code:codes[0]});assert(location(r).includes('profile'),'Connexion terminée avec secours');
 r=await request('citizen','page=security');r=await request('citizen','page=security',{csrf:token(r),action:'disable',code:codes[1]});assert(r.httpStatusCode===303,'Désactivation contrôlée de la 2FA');
 r=await request('citizen','page=security');assert(r.text.includes('Configurer Google Authenticator'),'2FA désactivée');
-r=await request('citizen','page=deactivate');r=await request('citizen','page=deactivate',{csrf:token(r)});assert(location(r).includes('deactivated'),'Désactivation via le contrôleur de Mariem');
+r=await request('citizen','page=deactivate');r=await request('citizen','page=deactivate',{csrf:token(r)});assert(location(r).includes('deactivated'),'Désactivation avec invalidation de session');
 r=await request('citizen','page=profile');assert(location(r).includes('login'),'Compte désactivé déconnecté');
 r=await request('guest','page=login');r=await request('guest','page=login',{csrf:token(r),email:'citoyen@test.test',password:'TestMotDePasse42!'});assert(r.httpStatusCode===422,'Compte inactif ne se reconnecte pas');
 r=await request('admin','page=logout');assert(r.httpStatusCode===405,'Déconnexion en GET interdite');
