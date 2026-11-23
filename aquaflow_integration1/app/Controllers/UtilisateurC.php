@@ -189,7 +189,9 @@ class UtilisateurC
                        COUNT(CASE WHEN role = 'C' THEN 1 END) AS citoyens,
                        COUNT(CASE WHEN role = 'P' THEN 1 END) AS plombiers,
                        COUNT(CASE WHEN statut = 'actif' THEN 1 END) AS actifs,
-                       COUNT(CASE WHEN statut = 'bloque' THEN 1 END) AS inactifs
+                       COUNT(CASE WHEN statut IN ('bloque', 'desactive') THEN 1 END) AS inactifs,
+                       COUNT(CASE WHEN statut = 'bloque' THEN 1 END) AS bloques,
+                       COUNT(CASE WHEN statut = 'desactive' THEN 1 END) AS desactives
                 FROM utilisateur
                 WHERE role IN ('C', 'P')";
         $db = Model::getConnexion();
@@ -199,14 +201,31 @@ class UtilisateurC
             return $query->fetch();
         } catch (PDOException $e) {
             error_log($e->getMessage());
-            return ['total' => 0, 'citoyens' => 0, 'plombiers' => 0, 'actifs' => 0, 'inactifs' => 0];
+            return ['total' => 0, 'citoyens' => 0, 'plombiers' => 0, 'actifs' => 0, 'inactifs' => 0, 'bloques' => 0, 'desactives' => 0];
         }
     }
 
     // ---------- Update : desactiver un compte citoyen/plombier (actif -> bloque) ----------
+    // Utilisé par l'administrateur : "bloque" = blocage admin (PR 2 / PR 3).
     public function desactiverUtilisateur($id)
     {
         $sql = "UPDATE utilisateur SET statut = 'bloque' WHERE id_user = :id AND role IN ('C', 'P') AND statut = 'actif'";
+        $db = Model::getConnexion();
+        try {
+            $query = $db->prepare($sql);
+            $query->execute(['id' => $id]);
+            return $query->rowCount();
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return 0;
+        }
+    }
+
+    // ---------- Update : desactivation volontaire (actif -> desactive) ----------
+    // Utilisé uniquement par le profil de l'utilisateur : distinct d'un blocage admin.
+    public function desactiverMonCompte($id)
+    {
+        $sql = "UPDATE utilisateur SET statut = 'desactive' WHERE id_user = :id AND role IN ('C', 'P') AND statut = 'actif'";
         $db = Model::getConnexion();
         try {
             $query = $db->prepare($sql);

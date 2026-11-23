@@ -24,9 +24,10 @@ class ProfileController extends Controller
                 redirect('profile');
             }
             if ($user && in_array($user['role'], ['C', 'P'], true) && $user['statut'] === 'actif') {
-                if ($uc->desactiverUtilisateur($_SESSION['id_user']) === 1) {
-                    logActivity((int)$_SESSION['id_user'], 'Désactivation compte', 'Désactivation du compte personnel');
-                    setFlash('Votre compte a ete desactive.');
+                // Desactivation volontaire : statut 'desactive', jamais 'bloque' (reserve a l'admin).
+                if ($uc->desactiverMonCompte($_SESSION['id_user']) === 1) {
+                    logActivity((int)$_SESSION['id_user'], 'Désactivation compte', 'Désactivation volontaire du compte personnel');
+                    setFlash('Votre compte a été désactivé.');
                     redirect('logout');
                 }
             }

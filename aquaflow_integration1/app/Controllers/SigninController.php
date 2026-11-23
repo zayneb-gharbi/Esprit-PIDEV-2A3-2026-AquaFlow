@@ -65,6 +65,9 @@ class SigninController extends Controller
             return "Votre compte est en attente d'approbation par un administrateur.";
         }
         if ($user['statut'] == 'bloque') {
+            return "Votre compte a été bloqué par un administrateur.";
+        }
+        if ($user['statut'] == 'desactive') {
             return "Votre compte est désactivé.";
         }
 

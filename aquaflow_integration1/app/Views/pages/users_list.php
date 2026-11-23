@@ -1,7 +1,12 @@
 <?php
 // Views/pages/users_list.php : infos personnelles des citoyens ou des plombiers (HTML pur)
 // variables : $users, $role ('C'|'P'), $heading, $page, $flash
-$statutLabels = ['actif' => 'Actif', 'en_attente' => 'En attente', 'bloque' => 'Désactivé'];
+$statutLabels = [
+    'actif'      => 'Actif',
+    'en_attente' => 'En attente',
+    'bloque'     => 'Bloqué',
+    'desactive'  => 'Désactivé',
+];
 ?>
 <div class="card">
 
