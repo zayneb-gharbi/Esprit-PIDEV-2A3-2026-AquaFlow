@@ -205,9 +205,8 @@ class UtilisateurC
         }
     }
 
-    // ---------- Update : desactiver un compte citoyen/plombier (actif -> bloque) ----------
-    // Utilisé par l'administrateur : "bloque" = blocage admin (PR 2 / PR 3).
-    public function desactiverUtilisateur($id)
+    // ---------- Update : bloquer un compte (actif -> bloque, admin uniquement) ----------
+    public function bloquerUtilisateur($id)
     {
         $sql = "UPDATE utilisateur SET statut = 'bloque' WHERE id_user = :id AND role IN ('C', 'P') AND statut = 'actif'";
         $db = Model::getConnexion();
@@ -219,6 +218,28 @@ class UtilisateurC
             error_log($e->getMessage());
             return 0;
         }
+    }
+
+    // ---------- Update : debloquer un compte (bloque -> actif, admin uniquement) ----------
+    public function debloquerUtilisateur($id)
+    {
+        $sql = "UPDATE utilisateur SET statut = 'actif' WHERE id_user = :id AND role IN ('C', 'P') AND statut = 'bloque'";
+        $db = Model::getConnexion();
+        try {
+            $query = $db->prepare($sql);
+            $query->execute(['id' => $id]);
+            return $query->rowCount();
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return 0;
+        }
+    }
+
+    // ---------- Ancien nom conserve pendant la transition (PR 3 mettra a jour les vues) ----------
+    // "bloque" = blocage admin ; la desactivation volontaire utilise desactiverMonCompte().
+    public function desactiverUtilisateur($id)
+    {
+        return $this->bloquerUtilisateur($id);
     }
 
     // ---------- Update : desactivation volontaire (actif -> desactive) ----------
