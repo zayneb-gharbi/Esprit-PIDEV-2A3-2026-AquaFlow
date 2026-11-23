@@ -1,5 +1,0 @@
-<section class="page-title"><span class="eyebrow">ADMINISTRATION</span><h1>Liste des plombiers</h1><p>Consultez les plombiers inscrits et exportez leurs informations.</p></section>
-<div class="card table-card"><div class="table-head"><div><h2>Plombiers</h2><p class="muted"><?= count($plombiers) ?> plombier(s)</p></div><a class="btn excel" href="index.php?page=export-plumbers">↓ Exporter en Excel</a></div>
-<?php if (!$plombiers): ?><div class="empty">Aucun plombier enregistré.</div><?php else: ?><table><thead><tr><th>Nom complet</th><th>Email</th><th>Téléphone</th><th>Statut</th><th>Inscription</th></tr></thead><tbody>
-<?php foreach ($plombiers as $p): ?><tr><td><strong><?= htmlspecialchars($p['prenom'].' '.$p['nom']) ?></strong></td><td><?= htmlspecialchars($p['email']) ?></td><td><?= htmlspecialchars($p['telephone'] ?? '—') ?></td><td><span class="status"><?= htmlspecialchars($p['statut']) ?></span></td><td><?= htmlspecialchars(date('d/m/Y', strtotime($p['date_creation']))) ?></td></tr><?php endforeach; ?>
-</tbody></table><?php endif; ?></div>
