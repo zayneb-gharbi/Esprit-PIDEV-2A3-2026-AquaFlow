@@ -1,0 +1,397 @@
+<?php
+// Views/pages/signin.php : page de connexion + creation de compte (HTML pur)
+// variables : $activeView ('login'|'register'), $message, $messageType, $oldIdentifier
+$activeView    = $activeView ?? 'login';
+$message       = $message ?? '';
+$messageType   = $messageType ?? 'error';
+$oldIdentifier = $oldIdentifier ?? '';
+?>
+<main class="page-container">
+
+        <!-- LEFT SIDE -->
+        <section class="visual-section">
+
+            <div class="brand">
+                <img src="app/Views/assets/images/logo.png" alt="Aqua Flow Logo">
+            </div>
+
+            <div class="visual-content">
+                <span class="eyebrow">SMART WATER MANAGEMENT</span>
+
+                <h1>Every Drop<br>Counts<span>.</span></h1>
+
+                <p>
+                    Manage water resources, report plumbing problems
+                    and contribute to a more sustainable future.
+                </p>
+
+                <div class="water-illustration">
+                    <div class="water-circle circle-one"></div>
+                    <div class="water-circle circle-two"></div>
+                    <div class="water-circle circle-three"></div>
+
+                    <div class="water-label">
+                        <span class="water-dot"></span>
+                        WATER IS LIFE
+                    </div>
+                </div>
+            </div>
+
+            <div class="visual-footer">
+                <span>© 2026 AQUA FLOW</span>
+                <span>Saving water, securing tomorrow.</span>
+            </div>
+
+        </section>
+
+
+        <!-- RIGHT SIDE -->
+        <section class="auth-section">
+
+            <div class="auth-wrapper">
+
+                <!-- LOGIN FORM -->
+                <div class="form-view <?= $activeView == 'login' ? 'active' : '' ?>" id="loginView">
+
+                    <div class="form-heading">
+                        <span class="welcome-tag">WELCOME BACK</span>
+                        <h2>Sign in to your account</h2>
+                        <p>Enter your credentials to continue.</p>
+                    </div>
+
+                    <form id="loginForm" action="index.php?page=signin" method="POST" novalidate>
+
+                        <input type="hidden" name="csrf_token" value="<?= e(csrfToken()) ?>">
+
+                        <div class="form-group">
+                            <label for="loginIdentifier">
+                                Email or phone
+                            </label>
+
+                            <input
+                                type="text"
+                                id="loginIdentifier"
+                                name="identifiant"
+                                value="<?= e($oldIdentifier) ?>"
+                                placeholder="Enter your email or phone"
+                            >
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="label-row">
+                                <label for="loginPassword">Password</label>
+                            </div>
+
+                            <div class="password-wrapper">
+                                <input
+                                    type="password"
+                                    id="loginPassword"
+                                    name="password"
+                                    placeholder="Enter your password"
+                                >
+
+                                <button type="button"
+                                    class="toggle-password"
+                                    data-target="loginPassword">
+                                    Show
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <button type="submit" class="primary-btn">
+                            Sign in <span>→</span>
+                        </button>
+
+                    </form>
+
+                    <div class="form-divider">
+                        <span>OR</span>
+                    </div>
+
+                    <p class="switch-text">
+                        Don't have an account?
+
+                        <button type="button"
+                            class="text-btn"
+                            id="showRegister">
+                            Create account
+                        </button>
+                    </p>
+
+                    <div class="security-note">
+                        <span>◆</span>
+                        Your information is protected and secure.
+                    </div>
+
+                </div>
+
+
+                <!-- REGISTRATION FORM -->
+                <div class="form-view <?= $activeView == 'register' ? 'active' : '' ?>" id="registerView">
+
+                    <div class="form-heading">
+                        <span class="welcome-tag">JOIN AQUA FLOW</span>
+                        <h2>Create your account</h2>
+                        <p>Start making a difference, one drop at a time.</p>
+                    </div>
+
+                    <form id="registerForm" action="index.php?page=signup" method="POST" novalidate>
+
+                        <input type="hidden" name="csrf_token" value="<?= e(csrfToken()) ?>">
+
+                        <!-- ROLE SELECTION -->
+                        <label class="role-label">
+                            I want to register as a:
+                        </label>
+
+                        <div class="role-options">
+
+                            <label class="role-card selected">
+
+                                <input type="radio"
+                                    name="role"
+                                    value="civilian"
+                                    checked>
+
+                                <span class="role-icon">♙</span>
+
+                                <span class="role-name">
+                                    Civilian
+                                </span>
+
+                                <span class="role-description">
+                                    Report problems
+                                </span>
+
+                            </label>
+
+                            <label class="role-card">
+
+                                <input type="radio"
+                                    name="role"
+                                    value="plumber">
+
+                                <span class="role-icon">⚒</span>
+
+                                <span class="role-name">
+                                    Plumber
+                                </span>
+
+                                <span class="role-description">
+                                    Handle interventions
+                                </span>
+
+                            </label>
+
+                        </div>
+
+
+                        <!-- FIRST NAME AND LAST NAME -->
+                        <div class="form-grid">
+
+                            <div class="form-group">
+                                <label for="firstName">
+                                    First name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="firstName"
+                                    name="first_name"
+                                    placeholder="First name"
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="lastName">
+                                    Last name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="lastName"
+                                    name="last_name"
+                                    placeholder="Last name"
+                                >
+                            </div>
+
+                        </div>
+
+
+                        <!-- EMAIL -->
+                        <div class="form-group">
+
+                            <label for="registerEmail">
+                                Email address
+                            </label>
+
+                            <input
+                                type="text"
+                                id="registerEmail"
+                                name="email"
+                                placeholder="example@email.com"
+                            >
+
+                        </div>
+
+
+                        <!-- PHONE -->
+                        <div class="form-group">
+
+                            <label for="registerPhone">
+                                Phone number
+                            </label>
+
+                            <input
+                                type="text"
+                                id="registerPhone"
+                                name="phone"
+                                placeholder="+216 XX XXX XXX"
+                            >
+
+                        </div>
+
+
+                        <!-- PLUMBER SPECIFIC FIELDS -->
+                        <div id="plumberFields" class="hidden">
+
+                            <!-- GOVERNORATE DROPDOWN -->
+                            <div class="form-group">
+
+                                <label for="serviceArea">
+                                    Service area
+                                </label>
+
+                                <select id="serviceArea" name="service_area">
+
+                                    <option value="">
+                                        Select your governorate
+                                    </option>
+
+                                    <option value="Tunis">Tunis</option>
+                                    <option value="Ariana">Ariana</option>
+                                    <option value="Ben Arous">Ben Arous</option>
+                                    <option value="Manouba">Manouba</option>
+                                    <option value="Nabeul">Nabeul</option>
+                                    <option value="Zaghouan">Zaghouan</option>
+                                    <option value="Bizerte">Bizerte</option>
+                                    <option value="Beja">Beja</option>
+                                    <option value="Jendouba">Jendouba</option>
+                                    <option value="Le Kef">Le Kef</option>
+                                    <option value="Siliana">Siliana</option>
+                                    <option value="Sousse">Sousse</option>
+                                    <option value="Monastir">Monastir</option>
+                                    <option value="Mahdia">Mahdia</option>
+                                    <option value="Sfax">Sfax</option>
+                                    <option value="Kairouan">Kairouan</option>
+                                    <option value="Kasserine">Kasserine</option>
+                                    <option value="Sidi Bouzid">Sidi Bouzid</option>
+                                    <option value="Gabes">Gabes</option>
+                                    <option value="Medenine">Medenine</option>
+                                    <option value="Tataouine">Tataouine</option>
+                                    <option value="Gafsa">Gafsa</option>
+                                    <option value="Tozeur">Tozeur</option>
+                                    <option value="Kebili">Kebili</option>
+
+                                </select>
+
+                            </div>
+
+
+                            <!-- EXPERIENCE -->
+                            <div class="form-group">
+
+                                <label for="experience">
+                                    Years of experience
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="experience"
+                                    name="experience"
+                                    placeholder="e.g. 5"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- PASSWORD -->
+                        <div class="form-group">
+
+                            <label for="registerPassword">
+                                Password
+                            </label>
+
+                            <div class="password-wrapper">
+
+                                <input
+                                    type="password"
+                                    id="registerPassword"
+                                    name="password"
+                                    placeholder="Create a password"
+                                >
+
+                                <button type="button"
+                                    class="toggle-password"
+                                    data-target="registerPassword">
+                                    Show
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- CONFIRM PASSWORD -->
+                        <div class="form-group">
+
+                            <label for="confirmPassword">
+                                Confirm password
+                            </label>
+
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                placeholder="Confirm your password"
+                            >
+
+                        </div>
+
+
+                        <button type="submit" class="primary-btn">
+                            Create account <span>→</span>
+                        </button>
+
+                    </form>
+
+
+                    <p class="switch-text register-switch">
+
+                        Already have an account?
+
+                        <button type="button"
+                            class="text-btn"
+                            id="showLogin">
+                            Sign in
+                        </button>
+
+                    </p>
+
+                </div>
+
+
+                <!-- VALIDATION MESSAGES -->
+                <div id="message"
+                    class="message <?= $message !== '' ? e($messageType) : '' ?>"
+                    role="status"
+                    aria-live="polite"><?= e($message) ?></div>
+
+            </div>
+
+        </section>
+
+    </main>
