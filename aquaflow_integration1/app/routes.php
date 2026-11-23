@@ -4,6 +4,7 @@ $routes = [
     'signin'  => 'SigninController',
     'signup'  => 'SignupController',
     'profile' => 'ProfileController',
+    'profile-edit' => 'ProfileEditController',
     'admin'   => 'AdminController',
     'stats'     => 'StatsController',
     'citoyens'  => 'CitoyensController',

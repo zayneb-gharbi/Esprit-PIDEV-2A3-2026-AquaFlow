@@ -17,6 +17,10 @@
         <?php } ?>
         <tr><th>Membre depuis</th><td><?= e($user['date_creation'] ?? '') ?></td></tr>
     </table>
+    <div class="modal-actions" style="margin-top:20px;">
+        <a class="btn" href="index.php?page=profile-edit">Modifier mes informations</a>
+    </div>
+
     <?php if (in_array($user['role'], ['C', 'P'], true) && $user['statut'] === 'actif') { ?>
         <form method="post" action="index.php?page=profile" onsubmit="return confirm('Confirmer la désactivation de votre compte ?');" style="margin-top: 20px;">
             <input type="hidden" name="csrf_token" value="<?= e(csrfToken()) ?>" />

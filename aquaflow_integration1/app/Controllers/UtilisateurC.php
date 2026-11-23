@@ -123,6 +123,54 @@ class UtilisateurC
         }
     }
 
+    // ---------- Update : informations personnelles (PR 4) ----------
+    // N'ecrit que les colonnes autorisees : jamais role / statut / mot_de_passe.
+    // $zoneService non null => on met aussi a jour zone_service et experience (plombiers).
+    public function updateInfosPersonnelles($id, $nom, $prenom, $email, $telephone, $zoneService = null, $experience = null)
+    {
+        $sql = "UPDATE utilisateur SET nom = :nom, prenom = :prenom, email = :email, telephone = :telephone";
+        $params = [
+            'id'         => $id,
+            'nom'        => $nom,
+            'prenom'     => $prenom,
+            'email'      => $email,
+            'telephone'  => $telephone
+        ];
+        if ($zoneService !== null) {
+            $sql .= ", zone_service = :zone_service, experience = :experience";
+            $params['zone_service'] = $zoneService;
+            $params['experience']   = $experience;
+        }
+        $sql .= " WHERE id_user = :id";
+        try {
+            $query = Model::getConnexion()->prepare($sql);
+            $query->execute($params);
+            return $query->rowCount();
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return 0;
+        }
+    }
+
+    // ---------- Read : e-mail ou telephone deja pris par un AUTRE compte ----------
+    public function emailOuTelephonePrisParAutre($email, $telephone, $id)
+    {
+        $sql = "SELECT COUNT(*) FROM utilisateur
+                WHERE (email = :email OR telephone = :telephone) AND id_user <> :id";
+        try {
+            $query = Model::getConnexion()->prepare($sql);
+            $query->execute([
+                'email'     => $email,
+                'telephone' => $telephone,
+                'id'        => $id
+            ]);
+            return (int) $query->fetchColumn() > 0;
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return true;   // prudent : on bloque la mise a jour si on ne peut pas verifier
+        }
+    }
+
     // ---------- Update : approuver un compte (en_attente -> actif) ----------
     public function approuverUtilisateur($id)
     {
