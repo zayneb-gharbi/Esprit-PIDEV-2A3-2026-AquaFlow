@@ -60,10 +60,6 @@ class UtilisateurPersistant extends Utilisateur
         }
         $requete = $this->db->prepare('UPDATE amir_utilisateurs SET nom=?,email=?,telephone=?,adresse=?,version=version+1 WHERE id=?');
         $requete->execute([$nom, strtolower($email), $telephone, $adresse, $id]);
-        if (($_SESSION['auth']['id'] ?? 0) === (int) $id) {
-            $_SESSION['auth']['version'] = (int) $this->getById($id)['version'];
-            unset($_SESSION['setup_totp'], $_SESSION['oauth']);
-        }
         return true;
     }
 
@@ -99,5 +95,36 @@ class UtilisateurPersistant extends Utilisateur
         $requete = $this->db->prepare('SELECT fournisseur FROM amir_identites WHERE utilisateur_id=?');
         $requete->execute([$id]);
         return $requete->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    public function idSocial($provider, $subject)
+    {
+        $requete = $this->db->prepare('SELECT utilisateur_id FROM amir_identites WHERE fournisseur=? AND identifiant=?');
+        $requete->execute([$provider, $subject]);
+        return $requete->fetchColumn();
+    }
+
+    public function associerSocial($id, $provider, $subject)
+    {
+        try {
+            $requete = $this->db->prepare('INSERT INTO amir_identites(utilisateur_id,fournisseur,identifiant) VALUES (?,?,?)');
+            $requete->execute([$id, $provider, $subject]);
+        } catch (PDOException $e) {
+            throw new DomainException('Un compte de ce service est déjà associé.');
+        }
+    }
+
+    public function creerSocial($nom, $email, $provider, $subject)
+    {
+        $this->db->beginTransaction();
+        try {
+            $user = $this->create($nom, $email, bin2hex(random_bytes(32)), 1);
+            $this->associerSocial($user['id'], $provider, $subject);
+            $this->db->commit();
+            return $user;
+        } catch (Throwable $e) {
+            $this->db->rollBack();
+            throw $e;
+        }
     }
 }
