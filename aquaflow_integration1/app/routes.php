@@ -3,6 +3,7 @@
 $routes = [
     'signin'  => 'SigninController',
     'signup'  => 'SignupController',
+    'dashboard' => 'DashboardController',
     'profile' => 'ProfileController',
     'profile-edit' => 'ProfileEditController',
     'admin'   => 'AdminController',

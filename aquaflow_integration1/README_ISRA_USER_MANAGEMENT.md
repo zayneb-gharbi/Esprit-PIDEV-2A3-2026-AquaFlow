@@ -24,8 +24,10 @@ Ce document décrit les fonctionnalités ajoutées par Isra Benhassouna sur la b
    // C:\xampp\htdocs\aquaflow-events\aquaflow-events\config\config.local.php
    return ['dbname' => 'aquaflow'];
    ```
-5. Ouvrir `http://localhost/AquwaFlow/aquaflow_integration1/index.php?page=signin`.
-6. Identifiants : sous forme **e-mail** ou **téléphone** (ex. `admin@aquaflow.tn` / `20000001`).
+5. Ouvrir le **portail d'entrée** : `http://localhost/AquwaFlow/`. Il liste tous les espaces
+   et indique pour chacun si un mot de passe est nécessaire.
+6. Application Utilisateurs : `http://localhost/AquwaFlow/aquaflow_integration1/index.php?page=signin`.
+   Identifiants : sous forme **e-mail** ou **téléphone** (ex. `admin@aquaflow.tn` / `20000001`).
 
 Connexion dans `app/Models/Model.php` : `127.0.0.1:3306`, base `aquaflow`, utilisateur `root`,
 mot de passe vide (valeurs XAMPP). Surcharge possible via `DB_HOST`, `DB_PORT`, `DB_NAME`,
@@ -44,6 +46,26 @@ mot de passe vide (valeurs XAMPP). Surcharge possible via `DB_HOST`, `DB_PORT`, 
 - Index lisible dans le navigateur :
   `http://localhost/AquwaFlow/aquaflow_integration1/docs.php`
   (cliquez sur un document pour le lire, ou sur « Ouvrir le .md brut »).
+
+## Portail, dashboards et « connexion sans mot de passe »
+
+- **Portail (page d'accueil unique)** : `http://localhost/AquwaFlow/`
+  C'est le point de départ : il mène au dashboard admin, à l'application Utilisateurs,
+  au module Événements, aux maquettes NOVA et aux documents Isra.
+- **Dashboard admin (après connexion)** :
+  `http://localhost/AquwaFlow/aquaflow_integration1/index.php?page=dashboard`
+  Chiffres clés + raccourcis vers Citoyens, Plombiers, Approbations, Statistiques,
+  Historique global, Événements, Documents et Portail. Les citoyens/plombiers ont
+  un accueil adapté à la même URL.
+- **⚠️ Deux connexions différentes — ne pas confondre :**
+  - *Application Utilisateurs* : **mot de passe obligatoire** (`Test1234!`).
+    Admin : `admin@aquaflow.tn` ou `20000001`.
+  - *Module Événements* : **aucun mot de passe**. Le « faux login » demande seulement
+    de choisir un profil : `http://localhost/aquaflow-events/aquaflow-events/dev_stubs/login_stub.php`
+    (Sonia Mejri = admin ; Mariem/Karim = citoyen/plombier).
+  - *Maquettes NOVA* : pages statiques, aucune connexion :
+    `http://localhost/AquwaFlowMd/Views/pages/admin/index.php` et
+    `http://localhost/AquwaFlowMd/Views/pages/front/index.php`.
 
 ## Une seule base, cinq tables, zéro conflit
 
