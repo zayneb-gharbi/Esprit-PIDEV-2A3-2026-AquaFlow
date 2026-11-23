@@ -8,8 +8,8 @@
     <div class="separator">Ou continuer avec</div>
     <div class="social-buttons">
     <?php foreach (['google' => 'Google', 'facebook' => 'Facebook'] as $provider => $label) { ?>
-        <form method="post" action="index.php?page=oauth_start"><input type="hidden" name="provider" value="<?= h($provider) ?>"><button class="btn-light social" type="submit" <?= AmirSocial::disponible($provider) ? '' : 'disabled' ?>><?= h($label) ?></button></form>
+        <form method="post" action="index.php?page=oauth_start"><input type="hidden" name="provider" value="<?= h($provider) ?>"><button class="btn-light social" type="submit" <?= $providers[$provider] ? '' : 'disabled' ?>><?= h($label) ?></button></form>
     <?php } ?>
     </div>
-    <?php if (!AmirSocial::disponible('google') || !AmirSocial::disponible('facebook')) { ?><p class="help">Les services grisés ne sont pas encore disponibles.</p><?php } ?>
+    <?php if (!$providers['google'] || !$providers['facebook']) { ?><p class="help">Les services grisés ne sont pas encore disponibles.</p><?php } ?>
 </div>

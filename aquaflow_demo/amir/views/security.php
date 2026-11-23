@@ -19,6 +19,6 @@
 <?php foreach (['google' => 'Google', 'facebook' => 'Facebook'] as $provider => $label) { ?>
     <div class="provider-row"><strong><?= h($label) ?></strong>
     <?php if (in_array($provider, $services, true)) { ?><span class="status">Associé</span><?php } else { ?>
-    <form method="post" action="index.php?page=oauth_start"><input type="hidden" name="provider" value="<?= h($provider) ?>"><button class="btn-light social" type="submit" <?= AmirSocial::disponible($provider) ? '' : 'disabled' ?>>Associer <?= h($label) ?></button></form>
+    <form method="post" action="index.php?page=oauth_start"><input type="hidden" name="provider" value="<?= h($provider) ?>"><button class="btn-light social" type="submit" <?= $providers[$provider] ? '' : 'disabled' ?>>Associer <?= h($label) ?></button></form>
     <?php } ?></div>
 <?php } ?></div>
