@@ -25,6 +25,7 @@ Cette version combine le projet MVC d'Omar et Mariem avec le module de Zayneb (h
 - `index.php?page=personal-history` : historique personnel.
 - `index.php?page=global-history` : historique global (admin uniquement).
 - Les pages `citoyens` et `plombiers` contiennent le bouton d'export Excel.
+- `README_ISRA_USER_MANAGEMENT.md` : blocage / déblocage, désactivation volontaire et modification du profil.
 
 ## À savoir
 - L'export reprend les colonnes existantes du modèle Oracle : `id_user`, `nom`, `prenom`, `email`, `telephone`, `statut`, `date_creation`, `role`.
