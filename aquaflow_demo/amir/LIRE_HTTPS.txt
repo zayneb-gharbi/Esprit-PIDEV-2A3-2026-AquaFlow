@@ -1,0 +1,127 @@
+AQUAFLOW : TERMINER LA CONNEXION FACEBOOK
+
+Ce complement ajoute HTTPS au projet deja installe. Il ne contient pas
+le projet complet. Il ne remplace aucun fichier du groupe ni tes cles.
+
+1. EXTRAIRE ET COPIER
+
+Extraire AquaFlow_Amir_Complement_HTTPS.zip.
+Copier son contenu DANS ton dossier amir actuel, celui qui contient deja
+DEMARRER_WINDOWS.bat, config, bin, public et var.
+Windows peut demander de fusionner les dossiers bin et config : accepter.
+Le fichier DEMARRER_HTTPS_WINDOWS.bat doit etre a cote de DEMARRER_WINDOWS.bat.
+Ne pas creer amir/amir. Ne pas supprimer config/local.php ni le dossier var.
+
+2. DEMARRER
+
+Demarrer MySQL dans XAMPP.
+Arreter l'ancien serveur HTTP avec Ctrl+C dans sa fenetre.
+Double-cliquer sur DEMARRER_HTTPS_WINDOWS.bat.
+Au premier lancement, Internet est necessaire pour telecharger Caddy
+depuis le site officiel caddyserver.com. Les lancements suivants reutilisent
+ce programme conserve dans var/https.
+
+Le lanceur propose d'ajouter un certificat AquaFlow local aux autorites
+de confiance de TON compte Windows. Cela permet a Chrome et Edge de
+reconnaitre le HTTPS de ce site local. Taper O puis Entree pour l'accepter.
+Il ne demande pas de desactiver la securite du navigateur.
+Le serveur ecoute uniquement sur 127.0.0.1 : aucun acces public n'est cree.
+Le dossier var/https contient des cles privees : ne jamais le publier.
+
+Le lanceur sauvegarde la configuration precedente dans var/https,
+puis remplace uniquement base_url. Tes autres reglages sont conserves.
+Garder sa fenetre ouverte. Appuyer sur Entree dans cette fenetre pour
+arreter proprement les deux serveurs.
+
+3. FACEBOOK : ENREGISTRER L'ADRESSE EXACTE
+
+Dans Meta for Developers, ouvrir l'application AquaFlow :
+Cas d'utilisation > Connexion Facebook > Personnaliser > Parametres.
+Dans "URI de redirection OAuth valides", ajouter cette ligne complete :
+
+https://127.0.0.1:8443/amir/public/index.php?page=oauth_callback&provider=facebook
+
+Enregistrer. Les options de connexion OAuth client et Web doivent etre
+activees. Conserver l'exigence HTTPS.
+Pour le test, utiliser le compte Facebook administrateur de cette application
+Meta, ou un compte dont le role de testeur a ete accepte. La publication
+publique de l'application est une etape differente.
+
+4. GOOGLE : GARDER LA CONNEXION FONCTIONNELLE
+
+Dans Google Auth Platform > Clients > Client Web 1 :
+ajouter dans "URI de redirection autorises" cette ligne complete :
+
+https://127.0.0.1:8443/amir/public/index.php?page=oauth_callback&provider=google
+
+Enregistrer. Les identifiants restent les memes. Ne pas ajouter cette
+adresse complete dans "Origines JavaScript". Les anciennes redirections
+locales peuvent rester pendant les tests.
+
+5. TESTER FACEBOOK
+
+Ouvrir dans Chrome ou Edge :
+https://127.0.0.1:8443/amir/public/index.php?page=login
+
+Pour retrouver ton compte AquaFlow existant : se connecter avec son email
+et son mot de passe, ouvrir Securite, puis Associer Facebook dans les cinq
+minutes suivant la connexion. Accepter la connexion chez Facebook.
+Deconnecter ensuite AquaFlow et cliquer sur Facebook sur l'ecran de connexion.
+Le meme profil doit revenir. Si la double authentification est activee,
+le code Google Authenticator doit etre demande avant l'acces au profil.
+Attendre un nouveau code si le precedent vient deja d'etre utilise.
+
+Un clic Facebook sans association prealable peut creer un autre compte
+citoyen. L'adresse email identique ne fusionne jamais les comptes seule.
+
+Si le navigateur indique un probleme de certificat, ne pas ignorer l'alerte.
+Fermer toutes les fenetres Chrome/Edge, les rouvrir et verifier que le lanceur
+a confirme l'installation. Si l'alerte persiste, conserver son message exact.
+En cas d'erreur du lanceur, consulter var/https/lanceur.log. Ne pas envoyer
+config/local.php, les fichiers de comptes, ni les cles privees.
+
+Cette version corrige "curl: (60) schannel: the revocation status is unknown".
+Le controle du site local accepte l'absence d'informations de revocation
+pour ce certificat local, tout en verifiant son autorite et son identite.
+Cette option concerne uniquement le test sur 127.0.0.1 ; elle ne modifie
+ni les connexions Google/Facebook, ni les reglages de securite Windows.
+Si tu as deja le complement precedent, remplace bin/demarrer_https.php
+par celui de cette archive puis relance DEMARRER_HTTPS_WINDOWS.bat.
+
+6. GITHUB ET MACHINE DU GROUPE
+
+Les nouveaux fichiers de code de ce complement peuvent etre ajoutes dans
+aquaflow_demo/amir avec le reste de ta contribution.
+config/local.php et var sont deja exclus de Git. Ne pas utiliser git add -f.
+Le certificat, Caddy, les journaux et les sauvegardes restent dans var/https.
+
+Sur une autre machine : installer PHP/XAMPP et la base, configurer local.php
+en prive et lancer DEMARRER_HTTPS_WINDOWS.bat. Un nouveau certificat local
+sera cree pour cette installation. Avec le meme chemin et le port 8443,
+les adresses de retour ci-dessus restent identiques.
+Pour un autre domaine, chemin ou port, modifier la configuration du serveur,
+base_url et les adresses de retour chez Google et Meta ensemble.
+
+Pour conserver les comptes et leur 2FA, transferer la base ET var/cle.txt
+de maniere privee. Sinon, utiliser de nouveaux comptes de test et configurer
+leur Google Authenticator sur la machine de validation.
+
+7. RETOUR ARRIERE
+
+Arreter le lanceur HTTPS avec Entree. Pour reprendre le serveur HTTP,
+ouvrir config/local.php et remettre :
+'base_url' => 'http://127.0.0.1:8000/amir/public',
+Google et Meta doivent utiliser les adresses correspondantes ; Facebook
+restera bloque si son exigence HTTPS n'est pas satisfaite.
+
+Pour retirer le certificat de confiance local, ouvrir certmgr.msc sous
+ton compte Windows, puis Autorites de certification racines de confiance
+> Certificats. Identifier le certificat "AquaFlow local" de cette installation
+et retirer uniquement celui-ci. Le lanceur affichera de nouveau sa demande
+de confiance au prochain lancement.
+
+VERIFICATIONS
+
+Le lanceur Windows et les connexions avec de vrais comptes externes doivent
+encore etre essayes sur le PC. Les tests locaux de TLS, du routage et de la
+conservation de la configuration sont distincts de la validation par Meta.

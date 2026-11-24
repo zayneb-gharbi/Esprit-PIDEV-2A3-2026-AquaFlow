@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AquaFlow — lancer et tester les tâches d’Amir</title>
+<style>
+:root{color-scheme:light;--blue:#1462a3;--ink:#183449;--line:#d4e3ee}*{box-sizing:border-box}body{margin:0;background:#f2f7fb;color:var(--ink);font:17px/1.6 system-ui,sans-serif}main{max-width:1000px;margin:auto;padding:32px 20px 60px}header,section{background:white;border:1px solid var(--line);border-radius:16px;padding:25px 30px;margin-bottom:22px}header{border-top:6px solid var(--blue)}h1{font-size:32px;line-height:1.2;margin:8px 0 16px}h2{font-size:24px;margin:0 0 15px}h3{font-size:19px;margin:25px 0 8px}a{color:#075ca3}li{margin:9px 0}code{background:#edf4f9;padding:2px 5px;border-radius:4px;overflow-wrap:anywhere;font-size:.91em}pre{background:#edf4f9;white-space:pre-wrap;overflow-wrap:anywhere;padding:15px;border-radius:9px}pre code{padding:0}table{width:100%;border-collapse:collapse;margin:15px 0;font-size:15px}th,td{border:1px solid var(--line);text-align:left;vertical-align:top;padding:11px}th{background:#edf4f9}.tag{font-weight:700;color:var(--blue);letter-spacing:.06em;font-size:13px}.notice{background:#fff7df;border-left:4px solid #bd8a14;padding:14px 18px}.ok{background:#edf8f4;border-left:4px solid #228565;padding:12px 18px}.button{display:inline-block;background:var(--blue);color:white;text-decoration:none;border-radius:8px;padding:12px 20px;font-weight:700}nav{display:flex;gap:15px;flex-wrap:wrap}summary{cursor:pointer;color:var(--blue);font-weight:650;padding:8px 0}.small{font-size:14px}footer{text-align:center;font-size:14px}@media(max-width:600px){header,section{padding:20px 16px}h1{font-size:26px}table{font-size:13px}th,td{padding:7px}}@media print{body{background:white}header,section{break-inside:avoid}.button{color:black;background:none;border:1px solid}nav{display:none}}
+</style>
+</head>
+<body>
+<main>
+<header>
+<div class="tag">AQUAFLOW · CONTRIBUTION AMIR</div>
+<h1>Ouvrir le site et tester tes trois tâches</h1>
+<p>Tu n’as pas besoin d’ouvrir tous les fichiers. Suis d’abord la partie 1, puis les trois tests ci-dessous. Les fichiers du groupe sont conservés et le site reprend leur template.</p>
+<nav><a href="#lancer">1. Ouvrir le site</a><a href="#admin">2. Fiche admin</a><a href="#social">3. Google / Facebook</a><a href="#totp">4. Double authentification</a><a href="#aide">En cas de problème</a></nav>
+<p class="notice"><strong>État réel :</strong> le code et les tests automatisés sont fournis. Les connexions Google/Facebook utilisent tes identifiants d’application privés : elles ne sont réellement validées qu’après un essai dans ton navigateur. Aucun secret réel n’est inclus dans ce ZIP.</p>
+</header>
+<section id="lancer">
+<h2>1. Ouvrir le site sur Windows</h2>
+<ol>
+<li>Fais un clic droit sur le ZIP → <strong>Extraire tout</strong>. Travaille dans le dossier extrait.</li>
+<li>Ouvre le panneau <strong>XAMPP</strong> et clique sur <strong>Start</strong> à côté de <strong>MySQL</strong>. Il doit devenir vert. Le lanceur utilise PHP directement.</li>
+<li>Dans le dossier extrait, ouvre <code>aquaflow_demo</code>, puis <code>amir</code>.</li>
+<li>Double-clique sur <strong>DEMARRER_WINDOWS.bat</strong>. Garde la fenêtre noire ouverte : elle fait fonctionner le site.</li>
+<li>Un fichier texte s’ouvre avec les comptes de test. Copie l’email et le mot de passe du compte voulu. Ce fichier se retrouve dans <code>amir/var/MES_COMPTES.txt</code>.</li>
+<li>Ouvre le lien ci-dessous. Si le premier chargement est trop rapide, actualise la page après le démarrage du serveur.</li>
+</ol>
+<p><a class="button" href="http://127.0.0.1:8000/amir/public/index.php">Ouvrir AquaFlow</a></p>
+<p><code>http://127.0.0.1:8000/amir/public/index.php</code></p>
+<p class="ok"><strong>Résultat attendu :</strong> la page de connexion AquaFlow. Connecte-toi d’abord avec le compte citoyen du fichier texte : tu dois arriver sur son profil.</p>
+<p>PHP 8.1 ou supérieur est nécessaire, avec <code>pdo_mysql</code>, <code>openssl</code> et <code>curl</code>. Le script cherche PHP dans <code>C:\xampp\php\php.exe</code>, puis dans le PATH. La base <code>aquaflow_amir</code> est créée automatiquement ; les données existantes sont conservées.</p>
+<p>Si tu as déjà une installation, garde ton ancien <code>config/local.php</code> et le dossier <code>var</code> privé. Une mise à jour du code ne doit pas les effacer.</p>
+</section>
+<section id="admin">
+<h2>2. Tâche admin : consulter les détails d’un utilisateur</h2>
+<ol>
+<li>Clique sur <strong>Se déconnecter</strong>, puis connecte-toi avec le compte <strong>administrateur</strong> de <code>MES_COMPTES.txt</code>.</li>
+<li>Ouvre <strong>Citoyens</strong>, puis clique sur <strong>Consulter</strong> sur une ligne.</li>
+<li>Vérifie le nom, l’email, le téléphone, l’adresse, le rôle, le statut et la date de création. Vérifie aussi l’état Google/Facebook et 2FA.</li>
+<li>Refais le test dans <strong>Plombiers</strong>.</li>
+<li>Copie l’adresse de la fiche. Déconnecte-toi, connecte-toi comme citoyen et colle cette adresse.</li>
+</ol>
+<p class="ok"><strong>Résultat attendu :</strong> l’administrateur voit les fiches. Le citoyen et le plombier reçoivent un refus d’accès. Un visiteur sans connexion est renvoyé à la page de connexion. Aucun mot de passe ni secret n’est affiché dans la fiche.</p>
+</section>
+<section id="social">
+<h2>3. Tâche utilisateur : Google et Facebook</h2>
+<p>Les boutons deviennent disponibles quand leurs identifiants sont renseignés. Un bouton actif prouve seulement que la configuration est renseignée ; il faut encore tester la connexion.</p>
+<details open><summary>A. Configurer Google</summary>
+<ol>
+<li>Ouvre <a href="https://console.cloud.google.com/auth/clients">Google Auth Platform → Clients</a>, sélectionne ton projet <strong>AquaFlow</strong> et ouvre <strong>Client Web 1</strong>, déjà créé.</li>
+<li>Dans les URI de redirection autorisés, vérifie exactement cette adresse puis enregistre :</li>
+</ol>
+<pre><code>http://127.0.0.1:8000/amir/public/index.php?page=oauth_callback&amp;provider=google</code></pre>
+<ol start="3">
+<li>Si tu as conservé le JSON contenant le secret lors de la création du client : double-clique sur <strong>IMPORTER_GOOGLE_WINDOWS.bat</strong>, glisse le JSON dans la fenêtre, puis appuie sur Entrée. L’import conserve les réglages de Facebook et de MySQL.</li>
+<li>Sinon, double-clique sur <strong>CONFIGURER_CONNEXIONS_WINDOWS.bat</strong>. Dans le fichier ouvert, renseigne <code>google_id</code> et <code>google_secret</code> entre les apostrophes, puis <strong>Ctrl+S</strong>. Google n’affiche le secret complet qu’à sa création ; s’il a été perdu, crée un nouveau secret avec la rotation du client et conserve-le immédiatement.</li>
+<li>Pour une démonstration à plusieurs comptes, utilise une audience <strong>Externe</strong> et ajoute les comptes de test si l’écran Google le demande. Garde les clés sur ton PC, hors du dépôt Git.</li>
+</ol>
+<p>Si le JSON a une ancienne redirection, vérifie l’adresse dans Google et utilise la saisie manuelle. L’import exige la redirection exacte dans le JSON.</p>
+</details>
+<details><summary>B. Configurer Facebook</summary>
+<ol>
+<li>Ouvre <a href="https://developers.facebook.com/apps/">Meta for Developers → Mes applications</a> dans ton navigateur habituel et crée une application proposant <strong>Facebook Login</strong>. Le code utilise la connexion Facebook standard.</li>
+<li>Dans les réglages du cas d’utilisation Facebook Login, active la connexion OAuth Web si elle est proposée et vérifie les redirections autorisées.</li>
+<li>Pour la configuration locale actuelle, l’adresse de retour calculée par AquaFlow est :</li>
+</ol>
+<pre><code>http://127.0.0.1:8000/amir/public/index.php?page=oauth_callback&amp;provider=facebook</code></pre>
+<p class="notice">Meta impose HTTPS pour les sites de connexion. Si sa console refuse cette adresse locale, il faut une adresse HTTPS acceptée : modifie alors <code>base_url</code> dans <code>config/local.php</code>, puis les redirections Google et Facebook avec cette même adresse. Ouvre aussi le site avec cette adresse. Le lanceur fourni sert uniquement le site local en HTTP ; il ne crée ni hébergement HTTPS ni certificat.</p>
+<ol start="4">
+<li>Dans les paramètres de base Meta, relève l’<strong>App ID</strong> et l’<strong>App Secret</strong>.</li>
+<li>Ouvre <strong>CONFIGURER_CONNEXIONS_WINDOWS.bat</strong>, renseigne <code>facebook_id</code> et <code>facebook_secret</code>, puis <strong>Ctrl+S</strong>.</li>
+<li>En mode développement, le compte utilisé pour l’essai doit avoir un rôle autorisé dans l’application et accepter l’invitation éventuelle. Une connexion publique peut nécessiter d’autres démarches dans Meta.</li>
+</ol>
+<p>La création de l’application Meta et la connexion réelle ne sont pas réalisées par le ZIP. Les vérifications humaines et l’accès au compte se font dans ton navigateur.</p>
+</details>
+<h3>C. Tester chaque fournisseur</h3>
+<table>
+<thead><tr><th>Action</th><th>Résultat attendu</th></tr></thead>
+<tbody>
+<tr><td>Déconnecte-toi d’AquaFlow. Clique sur Google, choisis un compte et accepte. Fais ensuite le même test avec Facebook.</td><td>Retour sur le profil AquaFlow. Une nouvelle identité crée un compte citoyen.</td></tr>
+<tr><td>Déconnecte-toi puis reconnecte-toi avec le même fournisseur et le même compte.</td><td>Tu retrouves le même profil, sans nouvelle inscription.</td></tr>
+<tr><td>Recommence puis annule la connexion chez le fournisseur.</td><td>Aucun compte AquaFlow n’est connecté par cette tentative.</td></tr>
+<tr><td>Pour conserver un compte local existant : connecte-toi avec son mot de passe → Sécurité → Associer Google ou Facebook. Fais-le dans les cinq minutes après connexion.</td><td>Le service devient « Associé ». Après déconnexion, ce service retrouve ce même compte et conserve son rôle.</td></tr>
+<tr><td>Si l’adresse email existe déjà dans AquaFlow, essaie une première connexion Google sans association.</td><td>La connexion demande de passer par le compte existant et l’association ; elle ne donne pas accès automatiquement à ce compte.</td></tr>
+</tbody></table>
+<p>Un email Facebook peut être absent : l’identité Facebook est reconnue par son identifiant, et le profil peut ensuite être complété.</p>
+</section>
+<section id="totp">
+<h2>4. Tâche utilisateur : Google Authenticator</h2>
+<p><strong>Cette tâche peut être testée tout de suite avec un compte local.</strong> Elle ne nécessite ni client Google Cloud ni application Facebook.</p>
+<ol>
+<li>Installe <strong>Google Authenticator</strong> sur ton téléphone. Active la date et l’heure automatiques sur le téléphone et le PC.</li>
+<li>Connecte-toi à AquaFlow, puis ouvre <strong>Sécurité → Configurer Google Authenticator</strong>. Fais-le dans les cinq minutes après connexion.</li>
+<li>Dans Google Authenticator : <strong>+ → Saisir une clé de configuration</strong>. Nom : <strong>AquaFlow</strong>. Clé : celle affichée sur le site. Type : <strong>Basé sur l’heure</strong>.</li>
+<li>Sur AquaFlow, saisis le code à six chiffres du téléphone et clique sur <strong>Confirmer l’activation</strong>.</li>
+<li>Conserve les <strong>huit codes de secours</strong> dans un endroit privé. Ils sont affichés une seule fois.</li>
+<li>Déconnecte-toi puis reconnecte-toi. Attends le prochain code du téléphone si le précédent vient d’être accepté, puis saisis-le.</li>
+</ol>
+<p class="ok"><strong>Résultat attendu :</strong> le profil ne s’ouvre qu’après la deuxième vérification. Le mot de passe seul, Google seul ou Facebook seul ne suffisent plus pour ce compte.</p>
+<table><thead><tr><th>Test complémentaire</th><th>Résultat attendu</th></tr></thead><tbody>
+<tr><td>Saisis volontairement un mauvais code.</td><td>Le site refuse l’accès.</td></tr>
+<tr><td>Utilise un code de secours, puis essaie de le réutiliser lors d’une autre connexion.</td><td>Il fonctionne une seule fois.</td></tr>
+<tr><td>Si un compte Google/Facebook est associé, connecte-toi avec lui après activation de la 2FA.</td><td>Le code du téléphone est aussi demandé.</td></tr>
+<tr><td>Après une connexion récente, va dans Sécurité, entre un nouveau code et clique sur Désactiver la double authentification.</td><td>Le statut devient « Désactivée ». À la prochaine connexion, le deuxième code n’est plus demandé.</td></tr>
+</tbody></table>
+<p>Après cinq tentatives sur une même étape de vérification, attends quinze minutes. Ne supprime pas <code>var/cle.txt</code> : cette clé permet de lire les secrets 2FA chiffrés en base.</p>
+</section>
+<section>
+<h2>5. Ce que tu peux expliquer au professeur</h2>
+<table><thead><tr><th>Partie</th><th>Rôle dans le projet</th></tr></thead><tbody>
+<tr><td><strong>Modèles</strong></td><td><code>models/UtilisateurPersistant.php</code> et <code>models/SecuriteUtilisateur.php</code> lisent et enregistrent les données avec PDO. Les valeurs des formulaires sont passées aux requêtes préparées.</td></tr>
+<tr><td><strong>Contrôleurs</strong></td><td><code>controllers/</code> traite les actions, les sessions, les autorisations, Google/Facebook et les codes de sécurité. Les requêtes SQL sont dans les modèles.</td></tr>
+<tr><td><strong>Vues</strong></td><td><code>views/</code> affiche les formulaires et les résultats dans le template du groupe. Les vues réutilisées du groupe sont conservées.</td></tr>
+<tr><td><strong>Point d’entrée</strong></td><td><code>public/index.php</code> charge l’application ; <code>ApplicationController.php</code> choisit l’action demandée.</td></tr>
+</tbody></table>
+<p>La connexion locale sert à tester et à associer les comptes. Le changement de mot de passe, les emails de réinitialisation, les historiques et l’export Excel ne font pas partie de ces trois tâches.</p>
+<p><strong>Validation automatique :</strong> 140 contrôles réussis sous PHP 8.4.27 WebAssembly et SQLite temporaire. Les fournisseurs OAuth sont simulés dans ces tests. L’installation XAMPP/MySQL et les vrais comptes Google/Facebook restent à vérifier sur le PC de validation.</p>
+<p>Les tests détaillés sont dans <code>amir/docs/resultats-tests.json</code>. Pour les relancer avec Node.js : ouvre un terminal dans <code>amir/tests</code>, puis exécute <code>npm ci</code> et <code>npm test</code>.</p>
+</section>
+<section id="aide">
+<h2>6. En cas de problème</h2>
+<p>Double-clique d’abord sur <strong>VERIFIER_WINDOWS.bat</strong>. Il vérifie PHP, les extensions, la base et la présence des réglages, sans afficher les secrets.</p>
+<table><thead><tr><th>Problème</th><th>Action</th></tr></thead><tbody>
+<tr><td>« PHP introuvable » ou commande non reconnue</td><td>Vérifie que XAMPP est installé dans <code>C:\xampp</code>. S’il est ailleurs, adapte <code>AMIR_PHP</code> dans les lanceurs.</td></tr>
+<tr><td>Installation impossible / base inaccessible</td><td>Démarre MySQL dans XAMPP. Si MySQL a un autre port ou un mot de passe, renseigne les paramètres <code>db_*</code> dans <code>config/local.php</code>.</td></tr>
+<tr><td>Le navigateur n’ouvre pas AquaFlow</td><td>Extrais le ZIP, relance le fichier BAT et garde sa fenêtre ouverte. Vérifie que le port 8000 n’est pas déjà utilisé.</td></tr>
+<tr><td>Le navigateur affiche le code PHP</td><td>Ouvre l’adresse HTTP indiquée dans la partie 1, au lieu de double-cliquer sur un fichier PHP.</td></tr>
+<tr><td>Bouton Google ou Facebook grisé</td><td>Renseigne les deux valeurs du fournisseur dans le fichier local, enregistre et actualise.</td></tr>
+<tr><td><code>redirect_uri_mismatch</code></td><td>Compare l’adresse indiquée par VERIFIER_WINDOWS.bat à celle enregistrée chez le fournisseur : protocole, nom d’hôte, port, chemin et paramètres doivent correspondre.</td></tr>
+<tr><td>État de connexion expiré / invalide</td><td>Repars du bouton AquaFlow, avec la même adresse et le même navigateur. Ne remplace pas <code>127.0.0.1</code> par <code>localhost</code> au milieu de la connexion.</td></tr>
+<tr><td>Code Authenticator refusé</td><td>Vérifie l’heure automatique des deux appareils et le compte sélectionné dans le téléphone. Attends le code suivant si le précédent a déjà servi.</td></tr>
+<tr><td>« Reconnecte-toi » pour une action sensible</td><td>Déconnecte-toi et reconnecte-toi, puis refais l’action dans les cinq minutes.</td></tr>
+</tbody></table>
+</section>
+<footer>Guide du 23 novembre 2026 · Source du code : contribution Amir · <a href="https://github.com/zayneb-gharbi/Esprit-PIDEV-2A3-2026-AquaFlow/pull/1">Pull request du projet</a></footer>
+</main>
+</body>
+</html>

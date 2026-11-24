@@ -1,0 +1,7 @@
+{
+  "name": "aquaflow-tests",
+  "private": true,
+  "type": "module",
+  "scripts": {"test": "node http.mjs"},
+  "devDependencies": {"@php-wasm/universal": "3.1.65", "@php-wasm/node-8-4": "3.1.65"}
+}

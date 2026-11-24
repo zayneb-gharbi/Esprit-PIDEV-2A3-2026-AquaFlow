@@ -1,0 +1,4 @@
+Responsable;Role;Tache;Code;Validation externe
+Amir;Administrateur;Consulter les details d'un utilisateur;Termine et teste;Verification XAMPP sur la machine du groupe
+Amir;Utilisateur;Se connecter via Google ou Facebook;Termine et teste avec fournisseurs simules;Identifiants OAuth et essai avec vrais comptes a configurer
+Amir;Utilisateur;Authentification a deux facteurs avec Google Authenticator;Termine et teste;Essai manuel avec le telephone sur la machine du groupe
