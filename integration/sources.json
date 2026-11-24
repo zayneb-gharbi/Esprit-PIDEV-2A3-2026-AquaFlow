@@ -1,0 +1,472 @@
+{
+  "amir/.gitignore": {
+    "source": "aquaflow_demo/amir/.gitignore",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "141cb69b5cbec92d264910823e814da76f89fc95930cd4d66349951d70cd6cd5"
+  },
+  "amir/.htaccess": {
+    "source": "aquaflow_demo/amir/.htaccess",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "a4d018ca912c7527f5220ec5400631f0e7b090a387b190ed33b78a12524e751b"
+  },
+  "amir/COMMENCER_ICI.html": {
+    "source": "aquaflow_demo/amir/COMMENCER_ICI.html",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "60cbbd5e5d14a8103bc4ce7ed64dc3093f4efe5777dc423e5d537dbf2bdfe775"
+  },
+  "amir/CONFIGURER_CONNEXIONS_WINDOWS.bat": {
+    "source": "aquaflow_demo/amir/CONFIGURER_CONNEXIONS_WINDOWS.bat",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "c7c34cbe06d601f2052c10d50e0edd498c9c8fbdf83abca4d2898e8aa4b64ee6"
+  },
+  "amir/DEMARRER_HTTPS_WINDOWS.bat": {
+    "source": "aquaflow_demo/amir/DEMARRER_HTTPS_WINDOWS.bat",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "09512ce617914992489c668e444d714a0f9ed4cb3cd185780194be1328dbbb81"
+  },
+  "amir/DEMARRER_LINUX.sh": {
+    "source": "aquaflow_demo/amir/DEMARRER_LINUX.sh",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "0e7fc5f20f5ba294614c82c73e5b48258472228f1665328128d46c064163dcdd"
+  },
+  "amir/DEMARRER_WINDOWS.bat": {
+    "source": "aquaflow_demo/amir/DEMARRER_WINDOWS.bat",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "5ffe0bcc4705fb47aa199841e4aacdf20ce24b2b401cedb8b0af5283f4252818"
+  },
+  "amir/IMPORTER_GOOGLE_WINDOWS.bat": {
+    "source": "aquaflow_demo/amir/IMPORTER_GOOGLE_WINDOWS.bat",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "cd31b807718314bd51a266f7ccbacc6b094d2a35a07d9668df030f9798ead590"
+  },
+  "amir/INSTALLER_DIAGNOSTIC_WINDOWS.bat": {
+    "source": "aquaflow_demo/amir/INSTALLER_DIAGNOSTIC_WINDOWS.bat",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "06497e82173600d9f8be07ce56b98bc00ac9ffc8eaa51b000ff4862a475df39e"
+  },
+  "amir/LIRE_HTTPS.txt": {
+    "source": "aquaflow_demo/amir/LIRE_HTTPS.txt",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "840da0eb5fc836d8f3cdf520d6dde5678eed6d158ebaf37dbd61303307e0f4e9"
+  },
+  "amir/REPARER_FACEBOOK_WINDOWS.bat": {
+    "source": "aquaflow_demo/amir/REPARER_FACEBOOK_WINDOWS.bat",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "0db4c846ccf2b7d85e611bd1bfb1977b33ae099114679001cad5579ec376acd8"
+  },
+  "amir/REPARER_HTTPS_WINDOWS.bat": {
+    "source": "aquaflow_demo/amir/REPARER_HTTPS_WINDOWS.bat",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "38e621c9fe9ee89a763ac8155921a0a2192641d44c704590dda603423501d2ea"
+  },
+  "amir/VERIFIER_WINDOWS.bat": {
+    "source": "aquaflow_demo/amir/VERIFIER_WINDOWS.bat",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "3a056d48d896894cabfdaa384fcc9fdfd404e1d946bc1fe6f420323598812112"
+  },
+  "amir/bin/.htaccess": {
+    "source": "aquaflow_demo/amir/bin/.htaccess",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "fa28d421a28ed9b6f4b997d5119c2b8adbacff6e2dd119a179b71230f9664934"
+  },
+  "amir/bin/demarrer_https.php": {
+    "source": "aquaflow_demo/amir/bin/demarrer_https.php",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "cd5414323cb9919cb596d8172106a5d6d08ce484208594160c3075fb908d15a3"
+  },
+  "amir/bin/diagnostic_connexions.php": {
+    "source": "aquaflow_demo/amir/bin/diagnostic_connexions.php",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "90809a6cd3b676c3e15d69f0657fb66902d35546933ce12dea3206ffb0af9c68"
+  },
+  "amir/bin/https_configuration.php": {
+    "source": "aquaflow_demo/amir/bin/https_configuration.php",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "97c8c907cbd991a31b383fb81ddf7a3fd0f84f4a596bfe435fa42edbe510e795"
+  },
+  "amir/bin/importer_google.php": {
+    "source": "aquaflow_demo/amir/bin/importer_google.php",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "292a4381dcdc8a004a680db38286f66dc8c2d72f37a9986afb442bc8941d492d"
+  },
+  "amir/bin/installer.php": {
+    "source": "aquaflow_demo/amir/bin/installer.php",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "f77dc13b18c4f82985d10084725bddf5414a460f988c350e0e5270b1e94774a4"
+  },
+  "amir/bin/verifier_installation.php": {
+    "source": "aquaflow_demo/amir/bin/verifier_installation.php",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "7d650432f5a1fd287f04cb9d98b1ddf2f9f7c1d358bfdf644a4f5172232c12b7"
+  },
+  "amir/config/.htaccess": {
+    "source": "aquaflow_demo/amir/config/.htaccess",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "fa28d421a28ed9b6f4b997d5119c2b8adbacff6e2dd119a179b71230f9664934"
+  },
+  "amir/config/Caddyfile": {
+    "source": "aquaflow_demo/amir/config/Caddyfile",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "b79e6d3cbdccdbc9d698cfb6169d32dce0dce32b5f400ad880da2582fe1a060a"
+  },
+  "amir/config/application.php": {
+    "source": "aquaflow_demo/amir/config/application.php",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "4d5dd5b9c7541b84cf4a3dde399f83a1f1c95bbba42e1d2e8deeab4a99fe75a7"
+  },
+  "amir/config/bootstrap.php": {
+    "source": "aquaflow_demo/amir/config/bootstrap.php",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "8fc501d6adabbea152cad49e64542aeb61b293fea669e9cafb5f68174b144d9e"
+  },
+  "amir/config/database.php": {
+    "source": "aquaflow_demo/amir/config/database.php",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "73e74282094ac959abab0fb2251cb2360d5bed5cea70cf14d1bdc093ea85ac1b"
+  },
+  "amir/config/local.example.php": {
+    "source": "aquaflow_demo/amir/config/local.example.php",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "b8eb5adede421bf0be68197af44eccbc0f497e125a3b823d2c56f0577a75b92f"
+  },
+  "amir/controllers/.htaccess": {
+    "source": "aquaflow_demo/amir/controllers/.htaccess",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "fa28d421a28ed9b6f4b997d5119c2b8adbacff6e2dd119a179b71230f9664934"
+  },
+  "amir/controllers/AuthController.php": {
+    "source": "aquaflow_demo/amir/controllers/AuthController.php",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "8efac0ca7f43a53771ea43faaab6755899bf67fdc472f924d92f05065e5a8238"
+  },
+  "amir/controllers/DetailsController.php": {
+    "source": "aquaflow_demo/amir/controllers/DetailsController.php",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "fc749bfe5e7312552ae75e6a233e7a99c79d3d780276aa846005055bc13c6455"
+  },
+  "amir/controllers/SocialController.php": {
+    "source": "aquaflow_demo/amir/controllers/SocialController.php",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "957566a0533b08d710ebcaf796479c4fe9b723e1a9c54282cec657bb9ea8a61e"
+  },
+  "amir/controllers/TotpController.php": {
+    "source": "aquaflow_demo/amir/controllers/TotpController.php",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "cb485dccf7d8bab518499356131523722d975767cb9f0751cc5f11d1da36d87d"
+  },
+  "amir/database/.htaccess": {
+    "source": "aquaflow_demo/amir/database/.htaccess",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "fa28d421a28ed9b6f4b997d5119c2b8adbacff6e2dd119a179b71230f9664934"
+  },
+  "amir/models/.htaccess": {
+    "source": "aquaflow_demo/amir/models/.htaccess",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "fa28d421a28ed9b6f4b997d5119c2b8adbacff6e2dd119a179b71230f9664934"
+  },
+  "amir/models/ConfigurationLocale.php": {
+    "source": "aquaflow_demo/amir/models/ConfigurationLocale.php",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "5e1fa47ce16251950b1a0f04ed5c162b787b076c1a29dd42477f796bd18b7c9e"
+  },
+  "amir/models/SecuriteUtilisateur.php": {
+    "source": "aquaflow_demo/amir/models/SecuriteUtilisateur.php",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "6ad877fc70aa6db6891bffa6449f5a4503139317c50b49a50e2fa507f7dad27b"
+  },
+  "amir/models/UtilisateurPersistant.php": {
+    "source": "aquaflow_demo/amir/models/UtilisateurPersistant.php",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "d8301de1214236b23b5f4ef38d804b65ef05b3c8f2f6de4c0040cac157523662"
+  },
+  "amir/public/index.php": {
+    "source": "aquaflow_demo/amir/public/index.php",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "c23b8822e3a3e854fa790a3d9b0d2e8c3bd486b71bc223bea0ffe1c898d0787f"
+  },
+  "amir/public/security.css": {
+    "source": "aquaflow_demo/amir/public/security.css",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "101867c75e4e6fadc5af6fbae149755fbe7882df1ba0b32b543859acf3bcfda2"
+  },
+  "amir/router.php": {
+    "source": "aquaflow_demo/amir/router.php",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "233b463108b122ee8d0f34c92d282bac633983a2e3575a57b9483ff3adaef420"
+  },
+  "amir/var/.gitkeep": {
+    "source": "aquaflow_demo/amir/var/.gitkeep",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "amir/var/.htaccess": {
+    "source": "aquaflow_demo/amir/var/.htaccess",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "fa28d421a28ed9b6f4b997d5119c2b8adbacff6e2dd119a179b71230f9664934"
+  },
+  "amir/views/.htaccess": {
+    "source": "aquaflow_demo/amir/views/.htaccess",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "fa28d421a28ed9b6f4b997d5119c2b8adbacff6e2dd119a179b71230f9664934"
+  },
+  "amir/views/challenge.php": {
+    "source": "aquaflow_demo/amir/views/challenge.php",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "5ae5a006f6f86a26e8365373be76eea5f74e35073df46654c665e30d5ee2ceba"
+  },
+  "amir/views/details.php": {
+    "source": "aquaflow_demo/amir/views/details.php",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "e1a75c60e0b95bc6f2c3eb17c05d3c400e91d323c1b65222cc9405aade9602c3"
+  },
+  "amir/views/security.php": {
+    "source": "aquaflow_demo/amir/views/security.php",
+    "commit": "5c51821108ab59dde508de9e8af8c97217e3f329",
+    "sha256": "728a97b35d52d74e5a35ae17c92bff03094d7308ffa588a7a9311e29c1ff110a"
+  },
+  "yasmine/Controller/AuthController.php": {
+    "source": "GestionEau/Controller/AuthController.php",
+    "commit": "323ffb07e2d4bf334362224b6291ffa5262fb18f",
+    "sha256": "ee4b4b378bf72210907d4167c0573102d94965c805748f3e0f16d2ea73651508"
+  },
+  "yasmine/Model/UserModel.php": {
+    "source": "GestionEau/Model/UserModel.php",
+    "commit": "323ffb07e2d4bf334362224b6291ffa5262fb18f",
+    "sha256": "77fc211390a0974fcebd05ee69f36ae6dd30523d306d2641c252222f69d7accd"
+  },
+  "yasmine/View/BackOffice/admin_space.php": {
+    "source": "GestionEau/View/BackOffice/admin_space.php",
+    "commit": "323ffb07e2d4bf334362224b6291ffa5262fb18f",
+    "sha256": "5574edf6f4a00d78209480ef5568c0b79187d2a5ae20218cea709de196baaa3e"
+  },
+  "yasmine/View/BackOffice/layout_admin.php": {
+    "source": "GestionEau/View/BackOffice/layout_admin.php",
+    "commit": "323ffb07e2d4bf334362224b6291ffa5262fb18f",
+    "sha256": "9f8cb15981083c38fdee716241695460c95b7f5197f5a61d49aa5e1ea728ab97"
+  },
+  "yasmine/View/FrontOffice/change_password.php": {
+    "source": "GestionEau/View/FrontOffice/change_password.php",
+    "commit": "323ffb07e2d4bf334362224b6291ffa5262fb18f",
+    "sha256": "04984149b8cfc69e633c595449c22246f7ec1ab87268dfd3fc97802488e8a510"
+  },
+  "yasmine/View/FrontOffice/forgot_password.php": {
+    "source": "GestionEau/View/FrontOffice/forgot_password.php",
+    "commit": "323ffb07e2d4bf334362224b6291ffa5262fb18f",
+    "sha256": "a3c32273416fb37bc6c1847241dc874c9f08f26fde0985bc4cd79868c121c276"
+  },
+  "yasmine/View/FrontOffice/layout.php": {
+    "source": "GestionEau/View/FrontOffice/layout.php",
+    "commit": "323ffb07e2d4bf334362224b6291ffa5262fb18f",
+    "sha256": "5518677c4a1a8539ee469bf9084fdd91f6467bb957f7e0bcbe03ab578ccde0cb"
+  },
+  "yasmine/View/FrontOffice/login.php": {
+    "source": "GestionEau/View/FrontOffice/login.php",
+    "commit": "323ffb07e2d4bf334362224b6291ffa5262fb18f",
+    "sha256": "c32954e0a39f37bd7c88d07dce744f511d01808eeb34e1d1d2000c4701e3904b"
+  },
+  "yasmine/View/FrontOffice/reset_password.php": {
+    "source": "GestionEau/View/FrontOffice/reset_password.php",
+    "commit": "323ffb07e2d4bf334362224b6291ffa5262fb18f",
+    "sha256": "677831a11401947057c3a7846124a978ca3ea2fb46f515ee6bc7c62c4f76298f"
+  },
+  "yasmine/View/FrontOffice/user_space.php": {
+    "source": "GestionEau/View/FrontOffice/user_space.php",
+    "commit": "323ffb07e2d4bf334362224b6291ffa5262fb18f",
+    "sha256": "7a9ef6434c4d8e7c6ddfb3091537dd5c21dfd7a14408f1884a470bd8118959ac"
+  },
+  "yasmine/config/mail.local.example.php": {
+    "source": "GestionEau/config/mail.local.example.php",
+    "commit": "323ffb07e2d4bf334362224b6291ffa5262fb18f",
+    "sha256": "f72da9e63caee98633ec84ee855cd9b94b5dfc2283cf66d10e232b94478960a5"
+  },
+  "yasmine/config/mail.php": {
+    "source": "GestionEau/config/mail.php",
+    "commit": "323ffb07e2d4bf334362224b6291ffa5262fb18f",
+    "sha256": "a5842d37ba9605583a5e72a1c5fa2f51eef6999693f4c489da1e3c5130921a45"
+  },
+  "groupe/app/Controllers/AdminBaseController.php": {
+    "source": "aquaflow_integration1/app/Controllers/AdminBaseController.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "dc353bbcdf03ecb31c71a595fc1a5b065ef36778243156f1e7237819bfab9af8"
+  },
+  "groupe/app/Controllers/AdminController.php": {
+    "source": "aquaflow_integration1/app/Controllers/AdminController.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "d669205296e0b3fba0148a7771c2e1292dfc074da746a2c63afa9a16a02e1d92"
+  },
+  "groupe/app/Controllers/CitoyensController.php": {
+    "source": "aquaflow_integration1/app/Controllers/CitoyensController.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "fd96442fd2314c623b5ab6c5a7250e9b2a18c40e455922fc3eecfda7e6d15f02"
+  },
+  "groupe/app/Controllers/Controller.php": {
+    "source": "aquaflow_integration1/app/Controllers/Controller.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "44131e55a6b29a20a6f31960381bca5020cef97d8b14f75dcd5846a8680ab65e"
+  },
+  "groupe/app/Controllers/ExportController.php": {
+    "source": "aquaflow_integration1/app/Controllers/ExportController.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "8ef380f539592cefe9c065b2a114c31cccdc4f2e2846edc65f99908c1bc4b591"
+  },
+  "groupe/app/Controllers/HistoriqueController.php": {
+    "source": "aquaflow_integration1/app/Controllers/HistoriqueController.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "d97010cda2dbbad76a3ee0375b0a8bb642d0e69264e377e4cf30ca2d0915263a"
+  },
+  "groupe/app/Controllers/LogoutController.php": {
+    "source": "aquaflow_integration1/app/Controllers/LogoutController.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "489d2dc65181b98f443eb2dede99b238b39349f726b512bee966074bdfb4330c"
+  },
+  "groupe/app/Controllers/PlombiersController.php": {
+    "source": "aquaflow_integration1/app/Controllers/PlombiersController.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "edb61a505d5cdcac97494de56120c214105e440b50481f854c01b335328cee67"
+  },
+  "groupe/app/Controllers/ProfileController.php": {
+    "source": "aquaflow_integration1/app/Controllers/ProfileController.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "b19fc8e3a5837a348cea083499a7ee7a29012352f6ec992a96f27e34f5672597"
+  },
+  "groupe/app/Controllers/SigninController.php": {
+    "source": "aquaflow_integration1/app/Controllers/SigninController.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "ca2136e40ee17944d3f3be662488915191c6b9af5e97addf20bd36bf0aef0934"
+  },
+  "groupe/app/Controllers/SignupController.php": {
+    "source": "aquaflow_integration1/app/Controllers/SignupController.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "40af42be631b8258b88e6021d2a032210d14697c9426a63e31ffc68e06289c09"
+  },
+  "groupe/app/Controllers/StatsController.php": {
+    "source": "aquaflow_integration1/app/Controllers/StatsController.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "11e97e98df3729fa611af77423a95111d809c00b4f6d0bcd8df237d5eb4f8221"
+  },
+  "groupe/app/Controllers/UsersListController.php": {
+    "source": "aquaflow_integration1/app/Controllers/UsersListController.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "237fe144b9a25ecb215b7b2090b15606b4de8d311e6a10c94358ee1579fc2d74"
+  },
+  "groupe/app/Controllers/UtilisateurC.php": {
+    "source": "aquaflow_integration1/app/Controllers/UtilisateurC.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "458e3bc1f8b3bea8522868068b614eb281805771634fceb74b40d47022072ace"
+  },
+  "groupe/app/Models/Historique.php": {
+    "source": "aquaflow_integration1/app/Models/Historique.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "66b76d8f5ed277431c178ba4e48bd4529757e7ee423e4f5033ba6b52bdd047d0"
+  },
+  "groupe/app/Models/Model.php": {
+    "source": "aquaflow_integration1/app/Models/Model.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "fcd5bace820ea032c1daa2fcd2899df926e7d0fed3653df02712bfcdc47722c8"
+  },
+  "groupe/app/Models/Utilisateur.php": {
+    "source": "aquaflow_integration1/app/Models/Utilisateur.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "17df72c18644f5b386e42eae2cc0a7303096814dd7b88c5d3537d6a33202a3d1"
+  },
+  "groupe/app/Views/assets/css/app.css": {
+    "source": "aquaflow_integration1/app/Views/assets/css/app.css",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "7269d3fa9a5e70b710d3fc9cee9986b29aa3dc23cd9c303cc90bf3dcb23637fe"
+  },
+  "groupe/app/Views/assets/css/user.css": {
+    "source": "aquaflow_integration1/app/Views/assets/css/user.css",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "e33c116d074b437653e5da77f471793b3fa5daf1e45570274d0de9b74e95c8a7"
+  },
+  "groupe/app/Views/assets/images/PUT_logo.png_HERE.txt": {
+    "source": "aquaflow_integration1/app/Views/assets/images/PUT_logo.png_HERE.txt",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "773640221e10d1f7cb57a2a63c4787c13e81ccc827d7c9b43797a8fd2f7a5a1b"
+  },
+  "groupe/app/Views/assets/js/script.js": {
+    "source": "aquaflow_integration1/app/Views/assets/js/script.js",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "c94dc06f84e7d7e0bacf460b4e9aa6be8037f889d94518895e5adb8b4b17beed"
+  },
+  "groupe/app/Views/layout.php": {
+    "source": "aquaflow_integration1/app/Views/layout.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "af3e7a5fb49608491483f36fca1e79295612b63662aa747fed4fc492419457e2"
+  },
+  "groupe/app/Views/pages/admin.php": {
+    "source": "aquaflow_integration1/app/Views/pages/admin.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "6dc5def54167f14c53c9437993df7bc0fb1106da3f6319acfb69f96fc65c9e7e"
+  },
+  "groupe/app/Views/pages/historique_global.php": {
+    "source": "aquaflow_integration1/app/Views/pages/historique_global.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "97bbef7443d7498fff81b104f0b7ee5f561f7cdea9689331669477d585d516f7"
+  },
+  "groupe/app/Views/pages/historique_personnel.php": {
+    "source": "aquaflow_integration1/app/Views/pages/historique_personnel.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "98e8edf6c473c93f3765f671e508cc2ca8d99ace9ecac30dc73a861faee70c5b"
+  },
+  "groupe/app/Views/pages/profile.php": {
+    "source": "aquaflow_integration1/app/Views/pages/profile.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "13aff8d93cd3fcafd2f47d91a52af7332b564ada4e576677220b509a002bef87"
+  },
+  "groupe/app/Views/pages/signin.php": {
+    "source": "aquaflow_integration1/app/Views/pages/signin.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "be5a7d9f1b814b9c5d1ad4f7f514ae10605ee6ce1320f044751b4f4b4cf94fcc"
+  },
+  "groupe/app/Views/pages/signin_scripts.php": {
+    "source": "aquaflow_integration1/app/Views/pages/signin_scripts.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "ed25d8907a8639ef375d2990471fba8b3d149ddbc63aff4d286f1b4a6fdc69f3"
+  },
+  "groupe/app/Views/pages/stats.php": {
+    "source": "aquaflow_integration1/app/Views/pages/stats.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "f8c884e5e65d57ac1d9f9d77960b26bac4b8c12090e74c45d9650f0351d5e3f0"
+  },
+  "groupe/app/Views/pages/users_list.php": {
+    "source": "aquaflow_integration1/app/Views/pages/users_list.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "615f3e6dd1027a38db955dc44774b583d8a8d232808e21cedd1965564e2dddb3"
+  },
+  "groupe/app/Views/pages/users_list_scripts.php": {
+    "source": "aquaflow_integration1/app/Views/pages/users_list_scripts.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "83b3eb953f66a2bfaf7cf925e7b3d6e56b956b7f87c1b8c34317cb0dafdd5ff2"
+  },
+  "groupe/app/Views/partials/footer.php": {
+    "source": "aquaflow_integration1/app/Views/partials/footer.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "080da71a2c31d2cfd4fb20aa918b730b219048c29446f799ef47192c77402ce6"
+  },
+  "groupe/app/Views/partials/head.php": {
+    "source": "aquaflow_integration1/app/Views/partials/head.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "f87aafd2cc0c4b183983fc9ff5c872542f65c555c097e5bd124f4187538bb65d"
+  },
+  "groupe/app/Views/partials/header.php": {
+    "source": "aquaflow_integration1/app/Views/partials/header.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "457411c38994ac1c27a3a1f31437aaafb434e6396a2dd17de8312401188203d4"
+  },
+  "groupe/app/Views/partials/scripts.php": {
+    "source": "aquaflow_integration1/app/Views/partials/scripts.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "f64cb2e28bb37e1cbf44efba7aeab5a46bd6beacffe07c26f89e6b26bcb7a147"
+  },
+  "groupe/app/helpers.php": {
+    "source": "aquaflow_integration1/app/helpers.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "85bc8735502ee2615e2a11ffbdf96118e581049936dfde95ccfa4bcbff0fc403"
+  },
+  "groupe/app/routes.php": {
+    "source": "aquaflow_integration1/app/routes.php",
+    "commit": "02fa10a853e3fb3d1e44a9091c3f7b946c325275",
+    "sha256": "eff5e3e7ac05046c2e84d6cf2587a528866094252f1e0142679bf1176ec190da"
+  }
+}

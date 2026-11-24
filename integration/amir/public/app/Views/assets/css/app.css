@@ -1,0 +1,196 @@
+/* app.css : styles des pages profile et admin (user.css reste inchange) */
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    background: var(--navy);
+    padding: 16px 32px;
+}
+
+.topbar .brand-link {
+    color: #fff;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: -0.5px;
+    text-decoration: none;
+}
+
+.topbar nav a {
+    color: #D2E8F2;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    margin-left: 22px;
+    padding-bottom: 4px;
+}
+
+.topbar nav a:hover { color: #fff; }
+
+.topbar nav a.active {
+    color: var(--turquoise);
+    border-bottom: 2px solid var(--turquoise);
+}
+
+.page-main {
+    padding: 30px 18px;
+    min-height: calc(100vh - 120px);
+}
+
+.card {
+    max-width: 980px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 36px;
+}
+
+.card.narrow { max-width: 560px; }
+
+.card h1 {
+    color: var(--navy);
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+
+.card .sub {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 22px;
+}
+
+.badge {
+    display: inline-block;
+    background: var(--light-blue);
+    color: var(--blue);
+    font-weight: 700;
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 12px;
+}
+
+.card .message { margin: 0 0 20px; }
+
+table { width: 100%; border-collapse: collapse; }
+
+th, td {
+    text-align: left;
+    padding: 11px 8px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+}
+
+th { color: var(--muted); }
+
+table.info { margin-top: 22px; }
+table.info th { width: 40%; font-size: 14px; }
+table.info td { font-size: 14px; }
+
+table.list th {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.table-wrap { overflow-x: auto; }
+
+.empty { color: var(--muted); padding: 24px 0; font-size: 14px; }
+
+.actions { display: flex; gap: 8px; }
+.actions form { margin: 0; }
+
+.btn-approve, .btn-reject {
+    border: none;
+    border-radius: 8px;
+    padding: 9px 16px;
+    font-weight: 700;
+    font-size: 12px;
+    color: #fff;
+}
+
+.btn-approve { background: #16A36B; }
+.btn-approve:hover { background: #0F7D52; }
+.btn-reject { background: #D64545; }
+.btn-reject:hover { background: #A93232; }
+
+.footer {
+    text-align: center;
+    color: #9BAEB9;
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding: 18px;
+}
+
+
+/* ---------- pages admin : statistiques et listes (reprises de aquaflow_final_mvc_v2) ---------- */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.stat-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+}
+
+.stat-card p { color: var(--muted); font-size: 13px; margin: 0 0 6px; }
+.stat-card h2 { color: var(--navy); font-size: 32px; margin: 0; }
+
+.table-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.table-head h1 { margin: 0; }
+
+.table-head input[type=text] {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+}
+
+.status {
+    display: inline-block;
+    background: #E5F8F0;
+    color: #16734B;
+    padding: 4px 10px;
+    border-radius: 30px;
+    font-size: 12px;
+}
+
+.status.inactive { background: #F0F1F3; color: #66717A; }
+
+@media (max-width: 800px) {
+    .stats-grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- Historique et export Excel ---------- */
+.filters { margin: 18px 0; }
+.filters form, form.filters { display:flex; flex-wrap:wrap; align-items:center; gap:10px; }
+.filters input, .filters select, .filters label select, .filters label input {
+    border:1px solid var(--border); border-radius:8px; padding:9px 11px;
+    color:var(--navy); background:#fff; font-size:13px; max-width:100%;
+}
+.filters label { display:flex; align-items:center; gap:7px; color:var(--muted); font-size:12px; }
+.btn, .btn-light {
+    display:inline-block; border:0; border-radius:8px; padding:10px 14px;
+    font-size:12px; font-weight:700; text-decoration:none; cursor:pointer;
+}
+.btn { background:var(--navy); color:#fff; }
+.btn:hover { background:#0B548F; }
+.btn-light { background:#EEF4F8; color:var(--navy); }
+.pagination { display:flex; gap:7px; margin-top:20px; flex-wrap:wrap; }
+.pagination a { padding:7px 11px; border:1px solid var(--border); border-radius:7px; color:var(--navy); text-decoration:none; font-size:12px; }
+.pagination a.active { background:var(--navy); color:#fff; }
