@@ -95,13 +95,13 @@ class SocialFixture extends AmirSocial
     }
 }
 $social = new SocialFixture($model,$auth);
-function callbackFixture($social,$provider,$user=null)
+function callbackFixture($social,$provider,$user=null,$code='fake-code')
 {
     global $nonce;
     $social->commencer($provider,$user);
     $session=$_SESSION['oauth'];
     $nonce=$session['nonce']??'';
-    return $social->retour(['provider'=>$provider,'state'=>$session['state'],'code'=>'fake-code'],$user);
+    return $social->retour(['provider'=>$provider,'state'=>$session['state'],'code'=>$code],$user);
 }
 AmirAuth::effacer();
 $url=$social->commencer('google',null);
@@ -111,6 +111,11 @@ check(count($social->requests)===0,'Aucun échange réseau pour un mauvais state
 $social->commencer('google',null);$_SESSION['oauth']['expires']=time()-1;
 refuse(fn()=>$social->retour(['provider'=>'google','state'=>$_SESSION['oauth']['state'],'code'=>'fake'],null),'State expiré refusé');
 check(callbackFixture($social,'google')==='profile','Google : échange signé et création du compte');
+$requeteGoogle = $social->requests[0];
+check($requeteGoogle[0] === 'https://oauth2.googleapis.com/token'
+    && is_array($requeteGoogle[1]) && $requeteGoogle[1]['grant_type'] === 'authorization_code'
+    && isset($requeteGoogle[1]['code_verifier']) && $requeteGoogle[2] === null,
+    'Google conserve son échange POST avec PKCE');
 $google=$auth->utilisateur();
 check((int)$google['id_role']===1,'Un nouveau compte social est toujours citoyen');
 AmirAuth::effacer();
@@ -129,7 +134,18 @@ check(callbackFixture($social,'google',$admin)==='security','Association explici
 AmirAuth::effacer();
 check(callbackFixture($social,'google')==='profile' && (int)$auth->utilisateur()['id_role']===3,'Compte admin associé conserve son rôle');
 AmirAuth::effacer();
-check(callbackFixture($social,'facebook')==='profile','Facebook : vérification du jeton et du profil');
+$premiereRequeteFacebook = count($social->requests);
+$codeFacebook = 'code+test/=& valeur';
+check(callbackFixture($social,'facebook',null,$codeFacebook)==='profile','Facebook : vérification du jeton et du profil');
+$requeteFacebook = $social->requests[$premiereRequeteFacebook];
+parse_str(parse_url($requeteFacebook[0], PHP_URL_QUERY) ?? '', $parametresFacebook);
+check(parse_url($requeteFacebook[0], PHP_URL_HOST) === 'graph.facebook.com'
+    && parse_url($requeteFacebook[0], PHP_URL_PATH) === '/v26.0/oauth/access_token'
+    && $requeteFacebook[1] === null && $requeteFacebook[2] === null,
+    'Facebook utilise GET pour l’échange du code selon le contrat Meta');
+check($parametresFacebook === ['client_id' => 'test-facebook-app', 'client_secret' => 'test-facebook-secret',
+    'redirect_uri' => AmirSocial::callback('facebook'), 'code' => $codeFacebook],
+    'Facebook conserve la redirection et encode les paramètres sans les altérer');
 AmirAuth::effacer();
 foreach ([['is_valid'=>false],['app_id'=>'autre-app'],['expires_at'=>time()-1],['type'=>'PAGE'],['data_access_expires_at'=>time()-1],['user_id'=>'autre-personne']] as $overrides) {
     $social->facebook=$overrides;
@@ -219,5 +235,6 @@ check(true, 'MVC : aucune requête SQL dans les contrôleurs, vues et point d’
 foreach (glob(__DIR__ . '/../models/*.php') as $file) {
     check(!preg_match('/\$_(SESSION|POST|GET|SERVER)\b/', file_get_contents($file)), 'Modèle indépendant de HTTP et des sessions : ' . basename($file));
 }
+require __DIR__ . '/diagnostic_oauth.php';
 file_put_contents(__DIR__.'/unit-results.json',json_encode($checks,JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
 echo count($checks)." vérifications métier et OAuth réussies (réponses externes simulées).\n";
