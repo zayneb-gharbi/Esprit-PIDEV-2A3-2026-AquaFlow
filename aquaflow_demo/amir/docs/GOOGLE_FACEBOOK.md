@@ -4,14 +4,14 @@ Ouvrir [COMMENCER_ICI.html](../COMMENCER_ICI.html) pour le parcours de test dét
 
 ## Adresse du site
 
-Par défaut : `http://127.0.0.1:8000/amir/public`.
+Le lanceur initial utilise `http://127.0.0.1:8000/amir/public`. Pour Facebook, utiliser le complément HTTPS Windows décrit dans [LIRE_HTTPS.txt](../LIRE_HTTPS.txt). Après démarrage, `base_url` devient `https://127.0.0.1:8443/amir/public`.
 
 Les URL de retour doivent correspondre exactement à `base_url` et au fournisseur :
 
-- Google : `http://127.0.0.1:8000/amir/public/index.php?page=oauth_callback&provider=google`
-- Facebook : `http://127.0.0.1:8000/amir/public/index.php?page=oauth_callback&provider=facebook`
+- Google : `https://127.0.0.1:8443/amir/public/index.php?page=oauth_callback&provider=google`
+- Facebook : `https://127.0.0.1:8443/amir/public/index.php?page=oauth_callback&provider=facebook`
 
-Meta impose HTTPS pour les sites de connexion. L’acceptation d’une adresse locale dépend des possibilités de test proposées par Meta ; elle n’a pas été vérifiée pour cette application. Si la console refuse l’adresse locale, utiliser une URL HTTPS acceptée, puis remplacer le début des deux redirections dans la configuration et les consoles des fournisseurs. Le lanceur fourni ne crée pas de service HTTPS. Toujours ouvrir le site avec la même adresse que celle définie par `base_url` pour conserver les cookies de session lors du retour.
+Meta a refusé la redirection HTTP de cette installation. `DEMARRER_HTTPS_WINDOWS.bat` ajoute un serveur TLS local ; remplacer seulement le texte `http` par `https` ne suffit pas. Enregistrer les nouvelles adresses exactes dans les consoles Google et Meta. L'acceptation par les fournisseurs doit ensuite être vérifiée avec une vraie connexion. Toujours ouvrir le site avec la même adresse que celle définie par `base_url` pour conserver les cookies de session lors du retour. Pour une autre machine utilisant les mêmes port et chemin locaux, ces adresses restent identiques ; configurer les clés et le certificat sur cette machine.
 
 ## Google
 
@@ -49,6 +49,16 @@ Pour associer un compte social à un compte local, utiliser **Sécurité → Ass
 
 `VERIFIER_WINDOWS.bat` contrôle PHP, les extensions et la base. Il affiche les adresses de retour exactes et indique si les identifiants sont renseignés, sans les révéler. Tester ensuite chaque fournisseur : nouvelle connexion, reconnexion au même compte, annulation, association explicite et demande du deuxième facteur si la 2FA est activée. Les tests automatiques utilisent des réponses simulées et ne remplacent pas ces essais.
 
+## Diagnostic d'un echec
+
+En cas d'erreur Google `redirect_uri_mismatch`, enregistrer l'URL exacte affichee par le diagnostic dans les URI de redirection du client Web utilise. Le protocole, l'hote, le port, le chemin et la query doivent correspondre. Repartir ensuite du bouton de connexion AquaFlow pour obtenir une nouvelle demande.
+
+Le controleur distingue les erreurs cURL/TLS des refus des fournisseurs, avec l'etape concernee, le statut HTTP et les codes d'erreur. Il ne journalise pas le corps des reponses, les URLs contenant des codes ou jetons, ni les secrets. Le journal prive est `var/oauth_diagnostic.log`. Pour tester le transport PHP sans utiliser de compte externe : `php aquaflow_demo/amir/bin/diagnostic_connexions.php`. Ce test public ne remplace pas un essai OAuth reel. Le complement et son installation Windows sont decrits dans [DIAGNOSTIC_CONNEXIONS.txt](DIAGNOSTIC_CONNEXIONS.txt).
+
+## Correction de l’appel Facebook
+
+L’échange du code Facebook utilise une requête GET serveur vers `/oauth/access_token`, avec les paramètres encodés, conformément au guide du flux manuel Meta. Google conserve son échange POST avec PKCE. Le secret et l’URL de cette requête ne sont jamais envoyés au navigateur ni journalisés par le diagnostic. Le complément [CORRECTION_FACEBOOK.txt](CORRECTION_FACEBOOK.txt) permet de mettre à jour une installation Windows existante. Un code d’erreur Meta 1 reste général et ne suffit pas à prouver une cause : le diagnostic affiche aussi l’indicateur temporaire lorsqu’il est fourni et des indications prédéfinies sur le secret, la redirection ou le code, sans reprendre le message brut du fournisseur.
+
 ## Sources officielles
 
 - [Google OpenID Connect](https://developers.google.com/identity/openid-connect/openid-connect)
@@ -56,6 +66,7 @@ Pour associer un compte social à un compte local, utiliser **Sécurité → Ass
 - [Gestion des clients et secrets Google](https://support.google.com/cloud/answer/15549257?hl=en)
 - [Configuration Google Auth Platform](https://support.google.com/cloud/answer/15544987?hl=en)
 - [Facebook — flux de connexion manuel](https://developers.facebook.com/documentation/facebook-login/guides/advanced/manual-flow)
+- [Facebook — codes d’erreur](https://developers.facebook.com/docs/graph-api/guides/error-handling)
 - [Versions de Graph API](https://developers.facebook.com/docs/graph-api/changelog/versions/)
 - [Facebook Login : exigence HTTPS](https://developers.facebook.com/docs/facebook-login/changelog/)
 - [RFC 6238 — TOTP](https://www.rfc-editor.org/rfc/rfc6238)

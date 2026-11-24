@@ -1,7 +1,7 @@
 {
   "runtime": "PHP 8.4.27 WebAssembly et SQLite temporaire",
   "externalServices": "Simulés ; aucun compte Google/Facebook réel utilisé",
-  "tests": 140,
+  "tests": 158,
   "unit": [
     "Mots de passe hachés",
     "Citoyen interdit sur les détails",
@@ -42,6 +42,7 @@
     "Aucun échange réseau pour un mauvais state",
     "State expiré refusé",
     "Google : échange signé et création du compte",
+    "Google conserve son échange POST avec PKCE",
     "Un nouveau compte social est toujours citoyen",
     "Google : même sujet retrouve le même compte",
     "JWT refusé : aud",
@@ -56,6 +57,8 @@
     "Association explicite au compte connecté",
     "Compte admin associé conserve son rôle",
     "Facebook : vérification du jeton et du profil",
+    "Facebook utilise GET pour l’échange du code selon le contrat Meta",
+    "Facebook conserve la redirection et encode les paramètres sans les altérer",
     "Facebook refusé : is_valid",
     "Facebook refusé : app_id",
     "Facebook refusé : expires_at",
@@ -83,7 +86,22 @@
     "MVC : aucune requête SQL dans les contrôleurs, vues et point d’entrée",
     "Modèle indépendant de HTTP et des sessions : ConfigurationLocale.php",
     "Modèle indépendant de HTTP et des sessions : SecuriteUtilisateur.php",
-    "Modèle indépendant de HTTP et des sessions : UtilisateurPersistant.php"
+    "Modèle indépendant de HTTP et des sessions : UtilisateurPersistant.php",
+    "Diagnostic : une reponse valide reste acceptee",
+    "Diagnostic detaille sans secret : certificat HTTPS distant (cURL 60)",
+    "Diagnostic detaille sans secret : code 190, sous-code 463",
+    "Diagnostic detaille sans secret : invalid_client",
+    "Diagnostic detaille sans secret : HTTP 503",
+    "Diagnostic detaille sans secret : HTTP 200",
+    "Diagnostic detaille sans secret : cURL 28",
+    "Diagnostic detaille sans secret : cURL 77",
+    "Diagnostic detaille sans secret : HTTP 400",
+    "Diagnostic detaille sans secret : non temporaire selon Meta, clé secrète de l’application à vérifier",
+    "Diagnostic detaille sans secret : code 1, temporaire selon Meta",
+    "Diagnostic detaille sans secret : adresse de retour à vérifier",
+    "Diagnostic detaille sans secret : code de connexion à renouveler",
+    "Diagnostic detaille sans secret : HTTP 400, code 1",
+    "Journal OAuth sans jeton, code de connexion, URL ou corps de reponse"
   ],
   "http": [
     {

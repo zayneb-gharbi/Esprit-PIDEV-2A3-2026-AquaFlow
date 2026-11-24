@@ -1,0 +1,47 @@
+AQUAFLOW : DIAGNOSTIC DES CONNEXIONS GOOGLE ET FACEBOOK
+
+Ce complement conserve ton installation actuelle. Ne desinstalle rien.
+
+1. Extraire TOUT le ZIP dans un dossier de Telechargements.
+2. Ouvrir INSTALLER_DIAGNOSTIC_WINDOWS.bat.
+3. Dans la fenetre qui apparait, choisir DEMARRER_HTTPS_WINDOWS.bat
+   dans le dossier amir de TON PROJET ACTUEL.
+4. Le programme sauvegarde le controleur actuel dans var/diagnostic-updates,
+   installe le diagnostic et verifie les deux connexions HTTPS publiques.
+5. Envoyer le resultat affiche dans la fenetre noire.
+
+Si le programme annonce une version differente, aucun fichier inconnu
+n'est remplace : envoyer ce message pour verifier la version du projet.
+
+Les tests reseau ne connectent aucun compte et ne valident pas les cles.
+Ils distinguent un echec de transport PHP/TLS d'un refus de l'API.
+Un HTTP 400 sur le test public Facebook peut etre normal : aucune
+identite n'est envoyee a cet endpoint de diagnostic.
+
+Pour obtenir le diagnostic de ta vraie connexion Google ou Facebook :
+- Arreter le serveur HTTPS avec Entree dans SA fenetre.
+- Relancer DEMARRER_HTTPS_WINDOWS.bat depuis le projet habituel.
+- Ouvrir https://127.0.0.1:8443/amir/public/index.php?page=login
+- Cliquer sur Google ou Facebook depuis la page de connexion.
+- Pour associer un compte local existant, se connecter avec son mot
+  de passe, puis Securite > Associer Google ou Facebook.
+- Si une erreur apparait, envoyer son nouveau texte.
+
+Le nouveau message precise le fournisseur, l'etape, le numero cURL,
+ou le statut HTTP et les codes d'erreur du fournisseur. Le meme
+diagnostic est conserve dans amir/var/oauth_diagnostic.log.
+Les mots de passe, secrets, jetons et corps des reponses ne sont
+ni affiches ni journalises. La verification HTTPS reste active.
+
+Le diagnostic n'est pas encore la correction de la cause de l'echec.
+Il permet de choisir la correction a partir du message precis.
+La creation d'un compte AquaFlow, ou son association a un compte
+existant, ne se fait qu'apres verification de l'identite externe.
+
+Erreur Google redirect_uri_mismatch : enregistrer cette adresse exacte
+dans le client Web utilise, rubrique URI de redirection autorises :
+https://127.0.0.1:8443/amir/public/index.php?page=oauth_callback&provider=google
+
+Ce diagnostic ne modifie pas config/local.php, la base, la cle de
+chiffrement ou les donnees Google Authenticator. Il ne publie rien
+sur GitHub et ne modifie pas les fichiers d'origine du groupe.
