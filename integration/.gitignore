@@ -1,0 +1,9 @@
+/amir/config/local.php
+/amir/config/import.local.php
+/amir/var/*
+!/amir/var/.htaccess
+!/amir/var/.gitkeep
+/yasmine/config/*.local.php
+/yasmine/storage/
+/vendor/
+**/node_modules
