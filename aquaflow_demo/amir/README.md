@@ -24,6 +24,14 @@ Pour une connexion MySQL différente, ouvrir `CONFIGURER_CONNEXIONS_WINDOWS.bat`
 
 Sur Linux : `bash aquaflow_demo/amir/DEMARRER_LINUX.sh` depuis la racine du dépôt.
 
+### HTTPS local pour Facebook sur Windows
+
+Si Meta indique « Le protocole HTTPS est requis pour toutes les URL de redirection », suivre [LIRE_HTTPS.txt](LIRE_HTTPS.txt) et utiliser `DEMARRER_HTTPS_WINDOWS.bat`. Ce lanceur télécharge Caddy depuis son site officiel, demande l'installation d'un certificat local pour le compte Windows et sert uniquement le point d'entrée et les ressources autorisées sur `https://127.0.0.1:8443/amir/public`. Il conserve les identifiants existants, sauvegarde `config/local.php` en privé et modifie uniquement `base_url`. Les clés, le certificat et le programme téléchargé restent sous `var/https`, exclu de Git. Aucun tunnel public n'est créé.
+
+Enregistrer ensuite les nouvelles redirections exactes chez **Meta et Google**. Utiliser le lanceur HTTPS et cette même adresse pour les tests. Le fichier `LIRE_HTTPS.txt` explique aussi l'installation sur la machine du groupe, l'arrêt du serveur et le retrait du certificat local.
+
+Sur Windows, le contrôle HTTPS local utilise `--ssl-revoke-best-effort` pour tolérer l'absence des informations de révocation du certificat local dans Schannel. La vérification du certificat et de son identité reste active avec `--cacert`. Ce réglage est limité à la requête de contrôle vers `127.0.0.1`, sans redirection ; les téléchargements externes et les appels Google/Facebook gardent leurs contrôles habituels. Voir la [documentation curl](https://curl.se/docs/manpage.html#--ssl-revoke-best-effort).
+
 ## Vérifier les trois fonctionnalités
 
 ### 1. Fiche utilisateur côté admin
@@ -85,7 +93,7 @@ La connexion locale est un support à ces trois tâches. Cette contribution ne r
 
 ## Vérifications
 
-**140 vérifications passent** : 81 contrôles métier/OAuth/architecture et 59 contrôles HTTP, sous **PHP 8.4.27 WebAssembly avec SQLite temporaire**. Les réponses Google/Facebook sont simulées dans les tests ; aucun vrai compte externe n’a été utilisé. Le schéma et l’installation MySQL sont fournis mais n’ont pas été exécutés sur XAMPP dans cet environnement. Les lanceurs Windows restent à exécuter sur le PC de validation.
+**158 vérifications passent** : 99 contrôles métier/OAuth/architecture et 59 contrôles HTTP, sous **PHP 8.4.27 WebAssembly avec SQLite temporaire**. Les réponses Google/Facebook sont simulées dans les tests ; aucun vrai compte externe n’a été utilisé. Le schéma et l’installation MySQL sont fournis mais n’ont pas été exécutés sur XAMPP dans cet environnement. Les lanceurs Windows restent à exécuter sur le PC de validation.
 
 ```bash
 cd aquaflow_demo/amir/tests
@@ -94,6 +102,12 @@ npm test
 ```
 
 Le rapport est dans [docs/resultats-tests.json](docs/resultats-tests.json). Les tests vérifient notamment les rôles, les identifiants invalides, CSRF, les signatures/claims Google, les jetons Facebook, les vecteurs RFC 6238, l’anti-rejeu, les codes de secours, les sessions et les pages du groupe réutilisées. Ils couvrent aussi l’import JSON Google sans écrasement des autres réglages, les transactions d’association sociale et la séparation SQL/contrôleurs/vues.
+
+Le complément HTTPS passe aussi **25 contrôles** avec Caddy 2.11.9 et PHP CLI/CGI 8.4.27 natifs sous Linux : certificat TLS vérifié, cookies Secure, passage des formulaires et retours OAuth, refus des chemins privés et sauvegarde des réglages. L'entrée PHP de ces tests est une page de test utilisant les contrôleurs de session et les générateurs d'URL réels ; les fournisseurs externes ne sont pas appelés. L'installation du certificat dans Windows et le lanceur Windows complet restent à tester sur le PC.
+
+```bash
+python3 aquaflow_demo/amir/tests/https.py /chemin/caddy /chemin/php /chemin/php-cgi
+```
 
 ## Intégration Git
 
