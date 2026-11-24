@@ -74,19 +74,70 @@ class AmirSocial
             $headers[] = 'Authorization: Bearer ' . $bearer;
         }
         curl_setopt_array($curl, [CURLOPT_RETURNTRANSFER => true, CURLOPT_CONNECTTIMEOUT => 8, CURLOPT_TIMEOUT => 15,
-                CURLOPT_FOLLOWLOCATION => false, CURLOPT_PROTOCOLS => CURLPROTO_HTTPS, CURLOPT_HTTPHEADER => $headers]);
+                CURLOPT_FOLLOWLOCATION => false, CURLOPT_PROTOCOLS => CURLPROTO_HTTPS, CURLOPT_HTTPHEADER => $headers,
+                CURLOPT_SSL_VERIFYPEER => true, CURLOPT_SSL_VERIFYHOST => 2]);
         if ($post !== null) {
             curl_setopt($curl, CURLOPT_POST, true);
             curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($post));
         }
         $data = curl_exec($curl);
         $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $numero = curl_errno($curl);
         curl_close($curl);
+        return $this->reponseExterne($url, $data, $status, $numero);
+    }
+
+    protected function reponseExterne($url, $data, $status, $numero)
+    {
         $json = is_string($data) ? json_decode($data, true) : null;
-        if ($status !== 200 || !is_array($json) || isset($json['error'])) {
-            throw new DomainException('La connexion externe a échoué. Réessaie plus tard.');
+        if ($numero === 0 && $status === 200 && is_array($json) && !isset($json['error'])) {
+            return $json;
         }
-        return $json;
+        $provider = parse_url($url, PHP_URL_HOST) === 'graph.facebook.com' ? 'Facebook' : 'Google';
+        $path = parse_url($url, PHP_URL_PATH) ?: '';
+        $etape = str_ends_with($path, '/access_token') || str_ends_with($path, '/token') ? 'échange du code' : 'vérification du compte';
+        if (str_ends_with($path, '/debug_token')) {
+            $etape = 'vérification du jeton';
+        } elseif (str_ends_with($path, '/me')) {
+            $etape = 'lecture du profil';
+        }
+        $message = $provider . ' — ' . $etape . ' : ';
+        if ($numero !== 0) {
+            $raisons = [6 => 'serveur introuvable', 7 => 'connexion au serveur impossible',
+                28 => 'délai dépassé', 35 => 'connexion TLS impossible',
+                60 => 'PHP ne peut pas vérifier le certificat HTTPS distant',
+                77 => 'fichier de certificats PHP absent ou illisible'];
+            $message .= ($raisons[$numero] ?? 'erreur de communication') . ' (cURL ' . (int) $numero . ').';
+        } else {
+            $message .= 'réponse refusée ou invalide (HTTP ' . (int) $status;
+            $erreur = is_array($json) ? ($json['error'] ?? null) : null;
+            if (is_array($erreur) && is_int($erreur['code'] ?? null)) {
+                $message .= ', code ' . $erreur['code'];
+                if (is_int($erreur['error_subcode'] ?? null)) {
+                    $message .= ', sous-code ' . $erreur['error_subcode'];
+                }
+                if ($provider === 'Facebook') {
+                    if (is_bool($erreur['is_transient'] ?? null)) {
+                        $message .= $erreur['is_transient'] ? ', temporaire selon Meta' : ', non temporaire selon Meta';
+                    }
+                    $description = is_string($erreur['message'] ?? null) ? strtolower($erreur['message']) : '';
+                    if (str_contains($description, 'client secret')) {
+                        $message .= ', clé secrète de l’application à vérifier';
+                    } elseif (str_contains($description, 'redirect_uri') || str_contains($description, 'redirect uri')) {
+                        $message .= ', adresse de retour à vérifier';
+                    } elseif (str_contains($description, 'verification code')) {
+                        $message .= ', code de connexion à renouveler';
+                    }
+                }
+            } elseif (is_string($erreur) && in_array($erreur, ['invalid_client', 'invalid_grant', 'invalid_request',
+                    'invalid_scope', 'unauthorized_client', 'access_denied', 'redirect_uri_mismatch',
+                    'temporarily_unavailable', 'server_error'], true)) {
+                $message .= ', ' . $erreur;
+            }
+            $message .= ').';
+        }
+        @file_put_contents(__DIR__ . '/../var/oauth_diagnostic.log', date('c') . ' ' . $message . PHP_EOL, FILE_APPEND | LOCK_EX);
+        throw new DomainException($message);
     }
 
     private static function decode64($value)
@@ -156,7 +207,7 @@ class AmirSocial
         }
         else {
             $base = 'https://graph.facebook.com/' . $config['facebook_version'];
-            $token = $this->json($base . '/oauth/access_token', $params);
+            $token = $this->json($base . '/oauth/access_token?' . http_build_query($params, '', '&', PHP_QUERY_RFC3986));
             $access = $token['access_token'] ?? null;
             if (!is_string($access) || $access === '') {
                 throw new DomainException('Jeton Facebook absent.');
