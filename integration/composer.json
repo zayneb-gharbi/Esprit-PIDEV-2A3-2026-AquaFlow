@@ -1,0 +1,7 @@
+{
+  "require": {
+    "php": ">=8.2",
+    "phpmailer/phpmailer": "^6.9",
+    "phpoffice/phpspreadsheet": "^3.0"
+  }
+}

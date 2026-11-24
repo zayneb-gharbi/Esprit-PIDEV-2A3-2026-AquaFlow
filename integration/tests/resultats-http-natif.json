@@ -1,0 +1,28 @@
+{
+  "runtime": "PHP 8.4.27 natif Linux, PDO SQLite",
+  "checks": [
+    "Privé refusé /amir/config/local.php",
+    "Privé refusé /amir/var/MES_COMPTES.txt",
+    "Privé refusé /yasmine/storage/mails.log",
+    "Privé refusé /groupe/app/Models/Model.php",
+    "Privé refusé /amir/bin/installer.php",
+    "Privé refusé /amir/controllers/IntegrationController.php",
+    "Privé refusé /mode.php",
+    "Privé refusé /sources.json",
+    "Asset servi /amir/public/security.css",
+    "Asset servi /amir/public/app/Views/assets/css/user.css",
+    "Asset servi /amir/public/app/Views/assets/css/app.css",
+    "Asset servi /amir/public/app/Views/assets/js/script.js",
+    "Connexion native",
+    "Connexion admin native 200 []",
+    "Page native citoyens",
+    "Page native plombiers",
+    "Page native stats",
+    "Page native personal-history",
+    "Page native global-history",
+    "Page native details&id=2",
+    "Page native security",
+    "Page native change_password"
+  ],
+  "passed": 22
+}

@@ -1,0 +1,38 @@
+{
+	admin off
+	persist_config off
+	auto_https disable_redirects
+	skip_install_trust
+	storage file_system "{$AMIR_HTTPS_STORAGE}"
+	pki {
+		ca local {
+			name "AquaFlow local"
+		}
+	}
+}
+
+https://127.0.0.1:8443 {
+	bind 127.0.0.1
+	tls internal
+	root * "{$AMIR_SITE_ROOT}"
+	header X-Content-Type-Options nosniff
+
+	@home path / /amir/public /amir/public/
+	redir @home /amir/public/index.php 302
+
+	@entry path /amir/public/index.php
+	handle @entry {
+		php_fastcgi 127.0.0.1:9001 {
+			env HTTPS on
+		}
+	}
+
+	@assets path /assets/style.css /assets/script.js /amir/public/security.css /amir/public/app/Views/assets/*
+	handle @assets {
+		file_server
+	}
+
+	handle {
+		respond "Page introuvable." 404
+	}
+}

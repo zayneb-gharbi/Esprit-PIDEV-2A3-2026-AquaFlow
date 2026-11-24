@@ -1,0 +1,6 @@
+Options -Indexes
+RewriteEngine On
+RewriteRule ^$ amir/public/index.php [L]
+RewriteRule ^amir/public/index\.php$ - [L]
+RewriteRule ^(assets/(style\.css|script\.js)|amir/public/security\.css|amir/public/app/Views/assets/[a-zA-Z0-9_./-]+\.(css|js|svg|png|jpg|woff2?))$ - [L]
+RewriteRule ^ - [R=404,L]
